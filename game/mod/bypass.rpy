@@ -1076,6 +1076,7 @@ init 5:# Screens
                     text "And lastly {a=https://www.patreon.com/passhonQ}passhonQ{/a} for developing [config.name!t]"
                 else:
                     text "Mod is outdated {a=https://github.com/JiGSaWKilla89/academy_live_mod}Click Here To Check for New Version{/a}"
+                    text "Most mod options will work. Walkthrough will not be synced"
 
     screen confirm_ok(message, ok_action=None):
         modal True
