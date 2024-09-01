@@ -1341,7 +1341,7 @@ init 1000 python:
         def find_closest_menu_before_name(lines, name, r_count, out=False):
             closest_menu_line = None
             min_distance = float('inf')
-            
+
             for i, line in enumerate(lines):
                 line = line.replace("\\","")
                 # Check if the name, including double quotes, is in the line
@@ -1381,7 +1381,7 @@ init 1000 python:
 
         counter = 0
         lst = {}
-        
+
         # Populate the lst dictionary with the script information
         for v, n, file in scripts:
             lst[v] = [n, update_wt(file), file]
@@ -1416,7 +1416,7 @@ init 1000 python:
         """
         This Function will find all the menu lines in the script
         """
-        
+
         output_data = []
         data = update_wt(filename)
         p = os.path.join(config.basedir, "menu_finder.txt")
