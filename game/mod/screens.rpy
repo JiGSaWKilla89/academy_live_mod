@@ -18,14 +18,14 @@ init 5:# Screens
 
                 textbutton _("{size=96}Load{/size}"):
                     style "menu_text_button_custom"
-                    text_style "menu_text_button_custom"                
+                    text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5               
                     action ShowMenu("load")
                 
                 textbutton _("{size=64}Replays{/size}"):
                     style "menu_text_button_custom"
-                    text_style "menu_text_button_custom"                
+                    text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
                     #action NullAction()
@@ -33,38 +33,35 @@ init 5:# Screens
 
                 textbutton _("{size=40}Preferences{/size}"):
                     style "menu_text_button_custom"
-                    text_style "menu_text_button_custom"            
+                    text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
-                    xalign 0.5           
+                    xalign 0.5
                     action ShowMenu("preferences")
 
                 textbutton _("{size=40}Music{/size}"):
                     style "menu_text_button_custom"
-                    text_style "menu_text_button_custom"                
+                    text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
                     #action NullAction()
                     action ShowMenu("musicroom")
 
-
                 textbutton _("{size=40}About{/size}"):
                     style "menu_text_button_custom"
-                    text_style "menu_text_button_custom"            
+                    text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
-                    xalign 0.5            
+                    xalign 0.5
                     action ShowMenu("about")
-
-
 
                 if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
                     ## Help isn't necessary or relevant to mobile devices.
                     textbutton _("{size=40}Help{/size}"):
                         style "menu_text_button_custom"
-                        text_style "menu_text_button_custom"                
+                        text_style "menu_text_button_custom"
                         text_outlines [ (2, "#00000080", 0, 1) ]
-                        xalign 0.5                 
-                        action ShowMenu("help")                
+                        xalign 0.5
+                        action ShowMenu("help")
 
                 if renpy.variant("pc"):
 
@@ -72,10 +69,10 @@ init 5:# Screens
                     ## Web.
                     textbutton _("{size=40}Quit{/size}"):
                         style "menu_text_button_custom"
-                        text_style "menu_text_button_custom"                
+                        text_style "menu_text_button_custom"
                         text_outlines [ (2, "#00000080", 0, 1) ]
-                        xalign 0.5                  
-                        action Quit(confirm=not main_menu)  
+                        xalign 0.5
+                        action Quit(confirm=not main_menu)
 
         else:
             vbox:
@@ -89,11 +86,6 @@ init 5:# Screens
                 if main_menu:
 
                     textbutton _("Start") action Start() style "menu_text_button_custom" text_style "menu_text_button_custom"
-                
-                
-                    #textbutton _("{font=gui/fonts/JosefinSans-SemiBold.ttf}{size=64}Start{/size}{/font}"):
-                        #text_outlines [ (2, "#00000080", 0, 1) ]
-                        #action Start()
 
                 else:
 
@@ -129,56 +121,7 @@ init 5:# Screens
 
                     ## The quit button is banned on iOS and unnecessary on Android and
                     ## Web.
-                    textbutton _("Quit") action Quit(confirm=not main_menu) style "menu_text_button_custom" text_style "menu_text_button_custom"      
-
-        #vbox:
-            #style_prefix "navigation"
-
-            #xpos gui.navigation_xpos
-            #yalign 0.5
-
-            #spacing gui.navigation_spacing
-
-            #if main_menu:
-
-                #textbutton _("Start") action Start()
-            
-            
-                ##textbutton _("{font=gui/fonts/JosefinSans-SemiBold.ttf}{size=64}Start{/size}{/font}"):
-                    ##text_outlines [ (2, "#00000080", 0, 1) ]
-                    ##action Start()
-
-            #else:
-
-                #textbutton _("History") action ShowMenu("history")
-
-                #textbutton _("Save") action ShowMenu("save")
-
-            #textbutton _("Load") action ShowMenu("load")
-
-            #textbutton _("Preferences") action ShowMenu("preferences")
-
-            #if _in_replay:
-
-                #textbutton _("End Replay") action EndReplay(confirm=True)
-
-            #elif not main_menu:
-
-                #textbutton _("Main Menu") action MainMenu()
-
-            #textbutton _("About") action ShowMenu("about")
-
-            #if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-                ### Help isn't necessary or relevant to mobile devices.
-                #textbutton _("Help") action ShowMenu("help")
-
-            #if renpy.variant("pc"):
-
-                ### The quit button is banned on iOS and unnecessary on Android and
-                ### Web.
-                #textbutton _("Quit") action Quit(confirm=not main_menu)
-
+                    textbutton _("Quit") action Quit(confirm=not main_menu) style "menu_text_button_custom" text_style "menu_text_button_custom"
     screen shortcuts():
         style_prefix "shortcuts"
         zorder 300
@@ -229,9 +172,6 @@ init 5:# Screens
             vbox:
                 style "main_menu_vbox"
 
-                #text "[config.name!t]":
-                    #style "main_menu_title"
-
                 text "{size=20}{color=#000000}[config.version]":
                     style "main_menu_version"
 
@@ -266,7 +206,7 @@ init 5:# Screens
                 idle "itch_idle"
                 hover "itch_hover"
                 style "menu_text_button_custom"
-                action OpenURL("https://passhonq.itch.io/academy-live")          
+                action OpenURL("https://passhonq.itch.io/academy-live")
         $ mod_version = "[gui.jg_mod_version]" if gui.jg_mod_version == config.version else "Incompatible Mod"
         vbox:
             text "{b}{u}[jg_1]JiG[jg_3][jg_2]SaW[jg_3]{/u}{/b}\nMOD Installed":
@@ -280,7 +220,7 @@ init 5:# Screens
                 text_align 0.5
                 action ShowMenu("mod_features")
                 tooltip "Click me to view mod features"
-        
+
         if tooltip:
             ## Use With Renpy Version Below 7.5 and 8.0
             #frame:
@@ -359,7 +299,7 @@ init 5:# Screens
                     style_prefix "tooltip"
                     hbox:
                         text tooltip
-    
+
     screen confirm_ok(message, ok_action=None):
         modal True
         zorder 200
@@ -456,7 +396,6 @@ init 5:# Screens
                     slow_effect_delay slow_effect_delay
                     always_effect always_effect
 
-
         ## If there's a side image, display it above the text. Do not display on the
         ## phone variant - there's no room.
         if not renpy.variant("small"):
@@ -500,7 +439,7 @@ init 5:# Screens
                             action SetField(persistent, "_fancy_text", True),SetField(preferences, "text_cps", 120)
                         textbutton _("Disabled"):
                             action SetField(persistent, "_fancy_text", False),SetField(preferences, "text_cps", 0)
-                        
+
                     vbox:
                         style_prefix "check"
                         label _("Savename\n[jg_s](Shift+S)")
@@ -542,12 +481,12 @@ init 5:# Screens
 
                             textbutton _("Default"):
                                 action SetField(persistent, "_effect_delay", 0.2)
-                
+
                 null height (4 * gui.pref_spacing)
 
                 hbox:
                     box_wrap True
-                    
+
                     vbox:
                         style_prefix "check"
                         label _("Choice Hotkeys\n[jg_s](C)")
@@ -570,8 +509,7 @@ init 5:# Screens
                                 action SetField(persistent, "_choice_tooltips", True)
                             textbutton _("Disabled"):
                                 action SetField(persistent, "_choice_tooltips", False)
-                    
-                    
+
                 null height (4 * gui.pref_spacing)
 
                 hbox:
@@ -594,13 +532,12 @@ init 5:# Screens
                         label _("Quick Menu State\n[jg_s](Q)")
                         textbutton _("{size=-10}[persistent._quick_menu_state!c]{/size}"):
                             action CycleQuickStates(True)
-                    
+
                     vbox:
                         style_prefix "check"
                         label _("Notifictions\n[jg_s](N)")
                         textbutton _("{size=-10}%s{/size}"%("Notification Stack" if persistent._notify_custom else "Notification Standard")):
                             action ToggleField(persistent, "_notify_custom")
-
 
                 null height (4 * gui.pref_spacing)
 
@@ -620,7 +557,6 @@ init 5:# Screens
                             action SetField(persistent, "_fast_vol_music", True)
                         textbutton _("Slow"):
                             action SetField(persistent, "_fast_vol_music", False)
-
 
                 null height (4 * gui.pref_spacing)
 
@@ -650,7 +586,6 @@ init 5:# Screens
                         bar:
                             value Preference("auto-forward time")
 
-
                     vbox:
 
                         if config.has_music:
@@ -672,7 +607,6 @@ init 5:# Screens
                                     textbutton _("Test"):
                                         action Play("sound", config.sample_sound)
 
-
                         if config.has_voice:
                             label _("Voice Volume:\n[jg_s]%s"%VolumeDisplay('voice'))
 
@@ -690,7 +624,7 @@ init 5:# Screens
                             textbutton _("Mute All"):
                                 action Preference("all mute", "toggle")
                                 style "mute_all_button"
-    
+
     screen quick_menu():
 
         ## Ensure this appears on top of other screens.
@@ -785,7 +719,7 @@ init 5:# Screens
             text_size 50
             text_outlines [(2, "#0009", 1, 1)]
             text_color "#FFFFFFA3"
-        
+
         vbox:
             for count, i in enumerate(items, 1):
                 $ _choice_wt = ""
@@ -835,7 +769,7 @@ init 5:# Screens
                     action i.action
                     if hint and persistent._walkthrough and persistent._choice_tooltips:
                         tooltip "{}".format(hint)
-        
+
                 key "K_{}".format(count) action (i.action if persistent._choice_hotkeys else NullAction())
                 key "K_KP_{}".format(count) action (i.action if persistent._choice_hotkeys else NullAction())
 
@@ -1022,7 +956,7 @@ init 5:# Screens
                     key "input_enter" action FilePage(int(_go_to_page)),SetVariable("_go_to_page",""),the_page.Disable()
 
     screen replays():
-    
+
         tag menu
 
         default main_girls_replay = ["Ayumi", "Emiko", "Haruka", "Maiya"]
@@ -1031,11 +965,9 @@ init 5:# Screens
         default page_name = girls[landing_page]
         default unlocked = False
 
-        
         use game_menu(_("Replays"), scroll="viewport"):
 
             style_prefix "about"
-
 
             vpgrid:
                 cols 2
@@ -1072,7 +1004,6 @@ init 5:# Screens
                                 else:
                                     action Replay(i_replay.block, scope=i_replay.dict, locked=not persistent._unlocked_gallery)
 
-    
         vbox:
             spacing 15
             xalign 0.2
@@ -1112,7 +1043,7 @@ init 5:# Screens
                             selected_idle "images/hud/rounded portraits (students)/Unknown hover.png"
                             at academybookzoom
                             action SetScreenVariable("landing_page", len(girls)-1)
-        
+
         if girls[landing_page] in main_girls_replay:
             image "images/hud/Replay/" + girls[landing_page] + ".png"
 
@@ -1137,7 +1068,6 @@ init 5:# Screens
 
         text "{font=[gui.name_text_font]}{color=[text_color]}{size=64}[girl_name]":
             outlines [ (3, "#00000080", 1, 2) ]
-            
             xanchor 0.5
             xalign 0.465
             yalign 0.07
@@ -1331,7 +1261,6 @@ init 1:# Screens Cheats
         default make_sextstat_available_staff = True
         default make_sextstat_available_students = True
         default mc_name = VariableInputValue('mcname', False)
-        
 
         default management_page = 1
         key ("game_menu", "K_5", "K_KP_5"):
@@ -1345,7 +1274,7 @@ init 1:# Screens Cheats
         key ("K_2", "K_KP_2") action SetScreenVariable("students_book_page", 1), SetScreenVariable("management_page", 2), SetScreenVariable("students_report_show", False),With(dissolve)
         key ("K_3", "K_KP_3") action SetScreenVariable("students_book_page", 3), SetScreenVariable("students_report_show", False),With(dissolve)
         key ("K_4", "K_KP_4") action SetScreenVariable("students_book_page", 2), SetScreenVariable("staff_report_show", False),With(dissolve)
-        
+
         vbox:
             xpos 1650
             ypos 50
@@ -1454,14 +1383,12 @@ init 1:# Screens Cheats
                             spacing 10
                             hbox:
                                 spacing 10
-                                
                                 text "{=cheats_inline_25}Teaching Method:"
                                 text "{=cheats_inline_15}%s"%("Punishment Focus" if academy.focus == 0\
                                     else "Relaxed" if academy.focus == 1\
                                     else "Teaching Focus" if academy.focus == 2\
                                     else "Corruption Focus"):
                                         yalign 0.6
-                                
                             hbox:
                                 spacing 10
                                 frame:
@@ -1527,7 +1454,7 @@ init 1:# Screens Cheats
                             spacing 2
                             hbox:
                                 spacing 10
-                                text "{=cheats_inline_25}Academy Perks:"                                
+                                text "{=cheats_inline_25}Academy Perks:"
                             hbox:
                                 spacing 5
                                 text "{size=20}{color=#000000}Active:"
@@ -1536,8 +1463,8 @@ init 1:# Screens Cheats
 
                             hbox:
                                 spacing 5
-                                text "{size=20}{color=#000000}Inactive:" 
-        
+                                text "{size=20}{color=#000000}Inactive:"
+
             vbox:
                 xsize 580
                 ysize config.screen_height-200
@@ -1601,7 +1528,7 @@ init 1:# Screens Cheats
                                     step=1,
                                     force_step=True)
                             textbutton "Default" action SetVariable("academy.board", default_board)
-                    
+
                     elif management_page == 2:
                         vbox:
                             label _("Grades Threshold:\n{color=#000}%s{/color}"%academy.gradesthreshold)
@@ -1614,7 +1541,7 @@ init 1:# Screens Cheats
                                     force_step=True)
                             textbutton "Default":
                                 action SetVariable("academy.gradesthreshold", default_gradesthreshold)
-                        
+
                         vbox:
                             label _("Outside Pressure:\n{color=#000}%s{/color}"%academy.outsidepressure)
                             bar:
@@ -1647,10 +1574,10 @@ init 1:# Screens Cheats
             for Actor in academy.staff:
                 if not Actor in reportbookstaff:
                     $ reportbookstaff.append(Actor)
-                
+
             $ reportbookstaff.sort(key=lambda x: x.name)
             if staff_report_show:
-                text "{=cheats_inline}{u}                                                            ":
+                text "{=cheats_inline}{u}".ljust(110):
                     xpos 347
                     ypos 338
                 image "[rstd.nametag]_portrait":
@@ -1715,7 +1642,7 @@ init 1:# Screens Cheats
                                 spacing 15
                                 text "{=cheats_inline}{u}[stat!c]:{/u}"
                                 text "{=cheats_inline}[stat_val]"
-                    
+
             else:
                 vbox:
                     xpos 345
@@ -1751,12 +1678,8 @@ init 1:# Screens Cheats
                                 vbox:
                                     spacing -5
                                     ypos -35
-                                    if renpy.variant("mobile"):
-                                        text "{color=#000000}{u}                                    ":
-                                            ypos -4
-                                    else:
-                                        text "{color=#000000}{u}                                           ":
-                                            ypos -4
+                                    text "{color=#000000}{u}".ljust(60):
+                                        ypos -4
                                     text "{size=15}{color=#000000}{font=gui/fonts/CrimsonText-SemiBold.ttf}{i}[Actor.title]"
                                     text "{size=30}{color=#000000}{font=gui/fonts/CrimsonText-SemiBold.ttf}{size=22}[Actor.surname],{/size} [Actor.c]{/font}{/color}{/size}":
                                         xmaximum 480
@@ -1799,12 +1722,8 @@ init 1:# Screens Cheats
                                 vbox:
                                     spacing -5
                                     ypos -35
-                                    if renpy.variant("mobile"):
-                                        text "{color=#000000}{u}                                    ":
-                                            ypos -4
-                                    else:
-                                        text "{color=#000000}{u}                                           ":
-                                            ypos -4
+                                    text "{color=#000000}{u}".ljust(60):
+                                        ypos -4
                                     text "{size=15}{color=#000000}{font=gui/fonts/CrimsonText-SemiBold.ttf}{i}[Teacher.title]"
                                     text "{size=30}{color=#000000}{font=gui/fonts/CrimsonText-SemiBold.ttf}{size=22}[Teacher.surname],{/size} [Teacher.name]{/font}{/color}{/size}":
                                         xmaximum 480
@@ -1820,7 +1739,7 @@ init 1:# Screens Cheats
             $ reportbookstudents.sort(key=lambda x: x.name)
             $ academy.targets.sort(key=lambda x: x.name)
             if students_report_show == True:                
-                text "{=cheats_inline}{u}                                                            ":
+                text "{=cheats_inline}{u}".ljust(110):
                     xpos 347
                     ypos 338
                 image "[rstd.nametag]_portrait":
@@ -1852,7 +1771,7 @@ init 1:# Screens Cheats
                         spacing 10
                         text "{=cheats_inline_40}Grades:"
                         text "%s"%_student_grade_status(rstd)
-                        
+
                     hbox:
                         spacing 10
                         text "{=cheats_inline_40}Strikes:"
@@ -1874,7 +1793,7 @@ init 1:# Screens Cheats
                             #pass
                         else:
                             text "%s"%_student_report_status(rstd)[0] xmaximum _student_report_status(rstd)[1]
-                        
+
                         if rstd.intelligence >= 2.5:
                             text "%s"%_student_intelligence_status(rstd,1) xmaximum 550       
 
@@ -1884,7 +1803,7 @@ init 1:# Screens Cheats
                                     xmaximum 550
                             else:
                                 text "{=cheats_inline_itallic}  Our reports have concluded that this student has been selling favors, of sexual nature, in exchange of attaining higher grading.":
-                                    xmaximum 550                
+                                    xmaximum 550
                         if "Rosette_Award" in rstd.topics and rstd.testResult < academy.gradesthreshold:
                             text "{=cheats_inline_itallic}  An award has been given to [rstd.name], meaning that they will count as having achieved the minimum score for a success on their weekly exam result.":
                                 xmaximum 550
@@ -1893,7 +1812,7 @@ init 1:# Screens Cheats
                                 xmaximum 550
                         elif rstd.intelligence < 0.7 and rstd.testResult >= academy.gradesthreshold:
                             text "{=cheats_inline_itallic}  It has been observed that despite having not exceeded in many of our initial examinations, the student is achieving adequate performance in regards to our grading system. Some could argue that [rstd.name] is probably receiving some form of external assistance, in order to gain an advantage.":
-                                xmaximum 550    
+                                xmaximum 550
                         elif rstd.intelligence >= 2.0:
                             text "%s"%_student_intelligence_status(rstd,2) xmaximum 550
                         elif rstd.intelligence >= 1.6:
@@ -1912,7 +1831,7 @@ init 1:# Screens Cheats
                                 xmaximum 550
                         elif rstd.intelligence < 0.5:
                             text "{=cheats_inline_itallic}  This student demonstrates an evident challenge when it comes to comprehending intricate topics, showcasing either a restrictive capability to learn or a severe lack of interest that would most definitely significantly hurt their academics.":
-                                xmaximum 550     
+                                xmaximum 550
                 text "{=cheats_inline_40}{u} PERSONAL INFORMATION {/u}":
                     xpos 1000
                     ypos 80
@@ -1947,7 +1866,7 @@ init 1:# Screens Cheats
                         text "{=cheats_inline}[rstd.weight] kg"
                     vbox:
                         spacing 10
-                        text "{=cheats_inline}{u}                                                                                        ":
+                        text "{=cheats_inline}{u}".ljust(110):
                             xalign 0.5
                             yalign 0.5
                         text "{=cheats_inline_40}{u} OTHER STATS {/u}":
@@ -2017,7 +1936,7 @@ init 1:# Screens Cheats
                                     xalign 0.5
                                     yalign 0.5
                                     text_align 0.5
-                            else:                        
+                            else:
                                 image "images/hud/heart crrpt.png":
                                     xalign 0.5
                                     zoom 0.75
@@ -2072,16 +1991,12 @@ init 1:# Screens Cheats
                                         action SetScreenVariable("rstd", Actor)
                                     else:
                                         action SetScreenVariable("rstd", "Student"), SetScreenVariable("students_report_show", False)
-                                    at academybookzoom                                                       
+                                    at academybookzoom
                                 vbox:
                                     spacing -5
                                     ypos -35
-                                    if renpy.variant("mobile"):
-                                        text "{color=#000000}{u}                                    ":
-                                            ypos -4
-                                    else:                                 
-                                        text "{color=#000000}{u}                                           ":
-                                            ypos -4
+                                    text "{color=#000000}{u}".ljust(60):
+                                        ypos -4
                                     text "{=cheats_inline_15}{font=gui/fonts/CrimsonText-SemiBold.ttf}{i}[Actor.title]"
                                     text "{=cheats_inline}{size=22}[Actor.surname],{/size} [Actor.name]":
                                         xmaximum 480
@@ -2124,7 +2039,7 @@ init 1:# Screens Cheats
                                 vbox:
                                     spacing -10
                                     ypos -35
-                                    text "{color=#000000}{u}                                           ":
+                                    text "{color=#000000}{u}".ljust(60):
                                         ypos -4
                                     text "{=cheats_inline_15}{font=gui/fonts/CrimsonText-SemiBold.ttf}{i}[Student.title]"
                                     text "{=cheats_inline}{size=22}[Student.surname],{/size} [Student.name]":
@@ -2134,7 +2049,7 @@ init 1:# Screens Cheats
                                             text_style "replay_cheat"
                                             style "replay_cheat"
                                             action SetScreenVariable("student_replay", Student.name), CaptureFocus("diff_drop")
-        
+
         if GetFocusRect("diff_drop"):
             $ replay_ysize = ((config.screen_height//2) if sum(1 for i in _cheats_replay if i.girl == student_replay) > 1 else 270)
             $ mto = sum(1 for i in _cheats_replay if i.girl == student_replay) > 1
@@ -2150,7 +2065,7 @@ init 1:# Screens Cheats
                 prefer_top False
                 focus "diff_drop"
                 frame:
-                    
+
                     at choice_appear(.5)
                     style_prefix "tooltip"
                     left_padding (15 if mtt or ono else 5)
@@ -2188,7 +2103,7 @@ init 1:# Screens Cheats
                                         xalign 0.5
                     textbutton "Close" action ClearFocus("diff_drop"),SetScreenVariable("student_replay", '') xalign 0.5
                     key "game_menu" action ClearFocus("diff_drop"),SetScreenVariable("student_replay", '')
-        
+
         if tooltip:
             nearrect:
                 focus "tooltip"
@@ -2208,7 +2123,6 @@ init 1:# Screens Cheats
         default liveEvent = False
         default callstudenthud = False
         default dailyactionhud = False
-        
 
         hbox:
             spacing 15
@@ -2248,7 +2162,7 @@ init 1:# Screens Cheats
             xysize (270, 20)
             ypos 15
             xpos 990
-        
+
         $ currentperiod_output = currentdate.period[currentdate.daytime]
         $ currentweekday_output = currentdate.weekdays[currentdate.weekday]
         $ currentmonth_output = currentdate.months[currentdate.month]
@@ -2439,4 +2353,3 @@ init 1:# Screens Cheats
                     text "{=cheats_inline_40}{u} TOPICS {/u}" xalign 0.5
                     $ tops = ", ".join(rstd.topics)
                     text "{=cheats_inline}[tops]"
-
