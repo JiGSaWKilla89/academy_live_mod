@@ -40,7 +40,6 @@ screen musicroom():
 
     timer .5 action GetMusicPlaying() repeat True
 
-    
     use game_menu(_("Music"), scroll=None):
         vbox:
             hbox:
