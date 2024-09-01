@@ -6,7 +6,7 @@ init 1:# Styles
     style notify_item_text:
         properties gui.text_properties("notify")
         outlines [(2, "#0009", 1, 1)]
-    
+
     style radio_button:
         hover_sound "audio/sfx/button_h.mp3"
         activate_sound "audio/sfx/button_a.mp3"
@@ -103,7 +103,7 @@ init 1:# Styles
     style replay_unlocked_vbox:
         xsize 600
         align (0.98,0.98)
-    
+
     style shortcuts_button_text is gui_button_text:
         outlines [(2, "#0009", 1, 1)]
         text_align 0.5
@@ -114,7 +114,6 @@ init 1:# Styles
         outlines [(2, "#a2a2a2", 1, 1)]
         text_align 0.5
         align (0.5,0.5)
-
 
 init 1:# Styles Cheats
 
@@ -178,11 +177,9 @@ init 1:# Styles Cheats
         hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         hover_thumb Frame(Solid(adj_bri("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
-
-
     style cheat_students_vbox:
         xsize 520
-        
+
     style cheat_students_vpgrid:
         xsize 540
         ysize 270
@@ -293,4 +290,3 @@ init 1:# Styles Cheats
         font gui.name_text_font
         hover_sound "audio/sfx/button_h.mp3"
         activate_sound "audio/sfx/button_a.mp3"
-
