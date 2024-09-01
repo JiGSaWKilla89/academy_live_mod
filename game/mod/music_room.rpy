@@ -263,12 +263,10 @@ init -1000 python:
                     renpy.music.set_pause(False, self.mr.channel)
                     return
 
-
             self.mr.play(self.filename, 0, loop=self.loop)
             file = self.mr.get_track(self.mr.channel)
             if self.filename != file:
                 self.filename = file
-
 
         def get_sensitive(self):
             return self.mr.is_unlocked(self.filename)
@@ -294,7 +292,7 @@ init -1000 python:
         try:
             track = renpy.open_file(file)
             track_data = track.read()
-            
+
             filename = BytesIO(track_data)
             filename.seek(0)
 
@@ -567,7 +565,6 @@ init -1000 python:
         immediately.
         """
 
-
         playlist = self.unlocked_playlist(filename)
         if not playlist:
             return
@@ -640,7 +637,6 @@ init -1000 python:
             playlist = playlist[idx:] + playlist[:idx]
         else:
             playlist = playlist[idx:]
-
 
         if queue:
             renpy.music.queue(playlist, channel=self.channel, loop=self.loop)
@@ -723,7 +719,6 @@ init -1000 python:
 
         if value >= dur:
             value = dur
-
 
         if queue:
             if renpy.music.is_playing(self.channel):
@@ -865,7 +860,6 @@ init -1000 python:
             previous_index = (index - 1) % len(playlist)
             next_index = (index + 1) % len(playlist)
 
-
             previous_track_data = self.GetTrackData(playlist[previous_index])
             current_track_data = self.GetTrackData(playlist[index])
             next_track_data = self.GetTrackData(playlist[next_index])
@@ -879,7 +873,6 @@ init -1000 python:
             self._previous_track = playlist[previous_index]
             self._current_track = playlist[index]
             self._next_track = playlist[next_index]
-
 
         except (ValueError, IndexError, KeyError) as exception:
             #print(exception, "Music Tracks")
@@ -908,7 +901,6 @@ init -1000 python:
         def __call__(self):
             self.mr.Previous_Current_Next()
             filename = self.mr.get_track(self.mr.channel)
-
 
             if self.filename != filename:
                 self.filename = self.mr.get_track(self.mr.channel)
@@ -969,7 +961,6 @@ init -1500 python:
 
         def __init__(self, color):
             self.color = Color(color)
-
 
         def __call__(self, other, done):
             nbr, nbg, nbb = self.color.rgb
@@ -1089,7 +1080,6 @@ init 10 python:
     # Initialize your musicroom
     mr = MusicRoom(fadeout=1.5, fadein=0.5, loop=True, shuffle=True, single_track=False, channel="music")
 
-
     def find_music():
         data = []
         tracks = []
@@ -1106,10 +1096,10 @@ init 10 python:
                         audio.filename = track[0]
     
             data.append([audio.trackname, audio.creator, audio.filename, audio.link])
-        
-        return data
+
+        return sorted(data)
         #trackname, creator, filename, link, adddescription
-        
+
     from collections import OrderedDict
     def sorted_music_tracks(music_dict):
         sorted_music = OrderedDict()
