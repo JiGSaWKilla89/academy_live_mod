@@ -36,6 +36,7 @@ screen musicroom():
     default currentTrack = ""
     default nexttrack = ""
     default prog_tt = ""
+    default mouse_active = False
 
     timer .5 action GetMusicPlaying() repeat True
 
@@ -153,7 +154,9 @@ screen musicroom():
                     label _("Music Volume: %s"%VolumeDisplay('music')) xalign 0.0
                 vbox:
                     xalign 1.0
-                    bar value Preference("music volume") xalign 1.0 tooltip "Volume\n{}".format(VolumeDisplay('music'))
+                    bar value Preference("music volume") xalign 1.0 tooltip "Volume\n{}".format(VolumeDisplay('music')):
+                        hovered SetLocalVariable("mouse_active", True)
+                        unhovered SetLocalVariable("mouse_active", False)
             vpgrid:
                 id "music"
                 scrollbars "vertical"
@@ -207,6 +210,10 @@ screen musicroom():
                 else:
                     hbox:
                         text tooltip
+
+    if mouse_active:
+        key "mousedown_4" action SlowVolUp("music","_fast_vol_music","music")
+        key "mousedown_5" action SlowVolDown("music","_fast_vol_music","music")
 
 screen music_overlay():
     timer .5 action GetMusicPlaying() repeat True
