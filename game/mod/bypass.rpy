@@ -198,6 +198,21 @@ init -5 python:
         'yoko_prologue_0', 'yuna', "non_finished_tasks", "event", "e", "completed_req", "s", "exam_list", "actor", 
         ])
 
+    bypass_list.extend(['Academic_Program', 'Alex_productions__Breakfast_in_paris', 'Alex_productions__Chill_vibes', 
+        'Donovan', 'Dylan_sitts__Mirror_moving', 'Fsm_team_escp__Small_town_boy', 'Gallery_Unlocker', 'NoneHandler', 
+        'Sell_Panties', 'SlowVolDown', 'SlowVolUp', 'Strikes_Program', 'Students_Representative', 'Students_Representative_Dict', 
+        'Study_Group', 'Study_Group_Dict', 'Study_Group_Intelligence_Increase', 'add_notify_message', 'adj_bri', 
+        'ayumi_date01', 'ayumi_servicing_0', 'ayumi_thugs_tits', 'breakfast_in_paris', 'change_affection_cheat', 
+        'change_apl_cheat', 'change_corruption_cheat', 'change_strikes_cheat', 'change_testresult_cheat', 'cheat_confirm', 
+        'cheat_input_text', 'chill_vibes', 'collected_panties', 'convincing', 'cum_chest', 'cum_face', 'daily_reminder', 
+        'diquick', 'emiko_servicing_0', 'entire_book_page_left', 'entire_book_page_right', 'extract_packages', 'f_flash_master', 
+        'failed_tasks', 'finish_notify', 'flashcum', 'float_range', 'get_menu_lines', 'haruka_servicing_0', 'header_line_top_left', 
+        'header_line_top_right', 'header_title_left', 'header_title_right', 'kiyomi_anal_plug_0', 'kiyomi_anal_punishment_0', 
+        'kiyomi_plug', 'kiyomi_punished_01_ev', 'lawsuit_start', 'natsuha', 'natsuha_sex_0', 'notify_appear', 'notify_duration', 
+        'notify_history_length', 'notify_messages', 'mirror_moving', 'moveright_atl_custom', 'pantie_collection', 'random_slanted', 
+        'replace_fromlist', 'right_to_left', 'rina_servicing_0', 'rotated', 'satsuki_first', 'setRepeatRatedown', 'setRepeatRateup', 
+        'spanked', 'time', 'toggle_notify_type', 'zip_directory', 'zip_final', 'zip_path', 'zipfile'])
+
     bypass_list = sorted(list(set([i.strip() for i in bypass_list])))
 
     import inspect
@@ -205,10 +220,10 @@ init -5 python:
     def adj_bri(hex_color, levels):
         def clamp(value):
             return max(0, min(255, value))
-        
+
         # Convert hex to RGB(A)
         hex_color = hex_color.lstrip('#')
-        
+
         # Handle different hex lengths
         if len(hex_color) == 3:  # #RGB
             r, g, b = [int(c*2, 16) for c in hex_color]
@@ -222,18 +237,18 @@ init -5 python:
             r, g, b, a = int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16), int(hex_color[6:8], 16)
         else:
             raise ValueError("Invalid hex color format")
-        
+
         # Adjust brightness
         r = clamp(r + levels)
         g = clamp(g + levels)
         b = clamp(b + levels)
-        
+
         # Convert RGB(A) back to hex
         if a is None:
             return '#{:02X}{:02X}{:02X}'.format(r, g, b)
         else:
             return '#{:02X}{:02X}{:02X}{:02X}'.format(r, g, b, a)
-    
+
     def var_search(name="", default=store):
         if default == persistent:
             ev = "persistent."
@@ -275,7 +290,7 @@ init -5 python:
         _auto_forward_time = int(round(preferences.afm_time))
         _auto_forward_time = '1' if _auto_forward_time == 0 else _auto_forward_time
         return _auto_forward_time
-    
+
     def TextBoxAlpha():
         _alpha = float(round(persistent._textbox_alpha,2))
         _alpha = _alpha*100
@@ -490,7 +505,7 @@ init -5 python:
 
                 if _choice_color in [None, "None", "none"]:
                     _choice_color = gui.text_color
-                
+
                 if _choice_size in [None, "None", "none"]:
                     _choice_size = gui.text_size
 
@@ -702,7 +717,7 @@ init -5 python:
 
     config.keymap[ 'toggle_callstack' ] = [ 'K_HOME' ]
     config.underlay.append(renpy.Keymap(toggle_callstack = Function(toggle_callstack)))
-        
+
     config.keymap[ 'toggle_visibility_up' ] = [ 'K_KP_PLUS', 'repeat_K_KP_PLUS' ]
     config.underlay.append(renpy.Keymap(toggle_visibility_up = Function(_adjust_dialogue, "+")))
 
@@ -787,7 +802,7 @@ init python:# Init Cheats
         if main_menu:
             return
         renpy.run(ToggleScreen("cheats", transition=dissolve))
-    
+
     config.keymap[ 'toggle_cheats' ] = [ 'K_END' ]
     config.underlay.append(renpy.Keymap(toggle_cheats = Function(toggle_cheats)))
 
@@ -965,7 +980,7 @@ init python:# Init Cheats
             return "{size=25}{b}D{/b}-"                  
         elif value < 40:
             return "{size=25}{b}F{/b}"
-    
+
     def _student_trust_status(value):
         if value >= 90:
             return "veryhappysymbol"
@@ -1111,7 +1126,7 @@ init python:# Init Cheats
             return "{=cheats_inline_random}{color=#ffe000}Curious"
         elif rstd.corruption < 10:
             return "{=cheats_inline_random}{color=#000000}Pure"
-    
+
     def _student_affection_status(rstd):
         if rstd.affection >= 91:
             return "{=cheats_inline_random}{color=#ff4edc}Passion!"
@@ -1192,7 +1207,6 @@ init python:# Init Cheats
                 #Variable, Girl, Girl_Name, Replay Name, Label, Desc
                 out.append(ReplayCheat(var, char, name, label, dic, desc, button_idle, button_hover, WideRatio(384)))
 
-
         return out
 
     class ReplayCheat():
@@ -1215,6 +1229,5 @@ init python:# Init Cheats
         "valid_dic_items", "walkthrough_dict", "wt_update", "filter_wt", 
         "update_check_walkthrough", "script_ignore_lines", 
         "event_ignore_lines"])
-
 
 #######################################################################################
