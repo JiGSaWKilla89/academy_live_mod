@@ -4,7 +4,6 @@ init 1000 python:
     #update_wt("events.rpy")
     #update_wt("script.rpy")
     def update_wt(file):
-        new_out = []
         with renpy.open_file(file, encoding="utf-8") as readfile:
             return readfile.readlines()
 
@@ -1320,20 +1319,8 @@ init 1000 python:
                     "color" : red
                     }
                 },
-            
-
-            #27084
-            #27290
-            #27462
-            #27507
-            #27985
-            #28140
-            #28271
-            #28300
-            #29203
-
             }
-        
+
     valid_dic_items = [#Changes Every Update
         ("events.rpyc", 3152), ("events.rpyc", 23450),
         ("script.rpyc", 8659), 
@@ -1425,23 +1412,10 @@ init 1000 python:
                 out.append(i)
         return out
 
-    class WTDict():
-        dic = {}
-        def __init__(self, fileline, menu_choice, **kwargs):
-            print(type(fileline))
-            self.dic[fileline] = {}
-            self.dic[fileline][menu_choice] = {}
-            
-            for k,v in kwargs.items():
-                self.dic[fileline][menu_choice][k] = v
-                setattr(self, k, v)
-            print(self.__dict__)
-
-            print(self.dic)
-
-    #WTDict(("events.rpyc", 28734), "Stick a finger in her ass", wt="Good Choice", hint=["[ayumi.name] Affection +1"], color="#F00")
-
     def get_menu_lines(filename, ignore_lines):
+        """
+        This Function will find all the menu lines in the script
+        """
         
         output_data = []
         data = update_wt(filename)
@@ -1458,6 +1432,10 @@ init 1000 python:
                 file.write("\n")
 
     def update_check_walkthrough():
+        """
+        Use this to check if the lines match up after
+        every update an get new menu items.
+        """
         get_menu_lines("script.rpy", filter_wt("script")+script_ignore_lines)
         get_menu_lines("events.rpy", filter_wt("events")+event_ignore_lines)
         check_dic(walkthrough_dict(),[("sc", "script", "script.rpy"), ("ev", "events", "events.rpy")])
