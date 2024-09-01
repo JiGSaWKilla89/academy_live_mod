@@ -40,7 +40,7 @@ screen musicroom():
 
     timer .5 action GetMusicPlaying() repeat True
 
-
+    
     use game_menu(_("Music"), scroll=None):
         vbox:
             hbox:
@@ -214,6 +214,8 @@ screen musicroom():
     if mouse_active:
         key "mousedown_4" action SlowVolUp("music","_fast_vol_music","music")
         key "mousedown_5" action SlowVolDown("music","_fast_vol_music","music")
+
+    text "Now Playing: [mr.current_track]" align (0.99, 0.05)
 
 screen music_overlay():
     timer .5 action GetMusicPlaying() repeat True
