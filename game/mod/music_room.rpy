@@ -12,12 +12,97 @@ init -1000 python:
     from mutagen.oggopus import OggOpus
     from mutagen import File as MutagenFile
 
+    if persistent._fast_vol_music == None:
+        persistent._fast_vol_music = True
+
+    class SlowVolUp(Action):
+        def __init__(self,channel,control,check):
+            self.channel = channel
+            self.control = f"persistent.{control}"
+            self.defaultvolumea = 0.01 if not eval(self.control) else 0.1
+            self.defaultvolumeb = "0.01" if not eval(self.control) else 0.1
+            self.check = f"config.has_{check}"
+
+        def __call__(self):
+            if eval(self.check):
+                self.slowvolup()
+                renpy.restart_interaction()
+
+        def slowvolup(self):
+            global preferences
+            try:
+                myvol = float(round(preferences.get_mixer(self.channel),2))
+            except:
+                myvol = float(round(preferences.get_volume(self.channel),2))
+            vol = myvol
+            vollist = list(float_range(0, 1, self.defaultvolumeb))
+
+            if eval(self.control):
+                myvol = min(vollist, key=lambda x:abs(x-myvol))
+            for i in vollist:
+                if myvol == i:
+                    vol += self.defaultvolumea
+                    try:
+                        preferences.set_mixer(self.channel,max(0.0, min(1.0, vol)))
+                    except:
+                        preferences.set_volume(self.channel,max(0.0, min(1.0, vol)))
+            return
+
+    class SlowVolDown(Action):
+        def __init__(self,channel,control,check):
+            self.channel = channel
+            self.control = f"persistent.{control}"
+            self.defaultvolumea = 0.01 if not eval(self.control) else 0.1
+            self.defaultvolumeb = "0.01" if not eval(self.control) else 0.1
+            self.check = f"config.has_{check}"
+        def __call__(self):
+            if eval(self.check):
+                self.slowvoldown()
+                renpy.restart_interaction()
+
+        def slowvoldown(self):
+            global preferences
+            try:
+                myvol = float(round(preferences.get_mixer(self.channel),2))
+            except:
+                myvol = float(round(preferences.get_volume(self.channel),2))
+            vol = myvol
+            vollist = list(float_range(0, 1, self.defaultvolumeb))
+
+            if eval(self.control):
+                myvol = min(vollist, key=lambda x:abs(x-myvol))
+            if myvol == 1.0:
+                vol -= self.defaultvolumea
+                preferences.set_volume(self.channel,vol)
+            for i in vollist:
+                if myvol == i:
+                    vol -= self.defaultvolumea
+                    try:
+                        preferences.set_mixer(self.channel,max(0.0, min(1.0, vol)))
+                    except:
+                        preferences.set_volume(self.channel,max(0.0, min(1.0, vol)))
+            return
+
+    def setRepeatRateup():
+        if hasattr(config,"key_repeat"):
+            setattr(config,"key_repeat",(.1, .001))
+
+    def setRepeatRatedown():
+        if hasattr(config,"key_repeat"):
+            setattr(config,"key_repeat",(.3, .03))
+
     def generate_float_list(start,end,step):
         float_list = []
         # generate floats from 1.0 to 0.5 with a step of 0.01
         for i in range(start, end, step):
             float_list.append(round(i/100, 2))
         return float_list
+
+    def float_range(start, stop, step):
+        import decimal
+        while start < stop:
+            yield float(start)
+            start += decimal.Decimal(step)
 
     class MutePlayer(Action):
         custom_vol = 0.0
@@ -2259,7 +2344,3 @@ image unlocked_button_insensitive = ConditionSwitch(
     "not persistent._use_outline_music_buttons", " unlocked_outline_insensitive",
     "persistent._use_outline_music_buttons", " unlocked_solid_insensitive",
 )
-
-
-
-
