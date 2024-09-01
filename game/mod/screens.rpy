@@ -297,7 +297,6 @@ init 5:# Screens
                     hbox:
                         text tooltip
 
-
     screen mod_features():
         $ tooltip = GetTooltip()
         tag menu
@@ -317,6 +316,7 @@ init 5:# Screens
                     text "2. Walkthrough Tooltips Toggled using {a=#:None}{color=#f00}(Shift+T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
                     text "Music Player"
                     text "1. Music Player can be Toggled ingame using {a=#:None}{color=#f00}(M){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+                    text "2. Hovering over Volume Slider allows mousewheel up/down control" xoffset 50 
                     text "Override Replays"
                     text "1. View Empty Replays {a=#:None}{color=#f00}(E){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
                     text "2. View Locked Replays {a=#:None}{color=#f00}(L){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
@@ -547,13 +547,7 @@ init 5:# Screens
 
                 hbox:
                     box_wrap True
-                    vbox:
-                        style_prefix "check"
-                        label _("Music Buttons\n[jg_s]{}".format("Solid" if persistent._use_outline_music_buttons else "Outline"))
-                        textbutton _("Solid"):
-                            action SetField(persistent, "_use_outline_music_buttons", True)
-                        textbutton _("Outline"):
-                            action SetField(persistent, "_use_outline_music_buttons", False)
+                    
                     vbox:
                         style_prefix "check"
                         label _("Choice Hotkeys\n[jg_s](C)")
@@ -606,6 +600,26 @@ init 5:# Screens
                         label _("Notifictions\n[jg_s](N)")
                         textbutton _("{size=-10}%s{/size}"%("Notification Stack" if persistent._notify_custom else "Notification Standard")):
                             action ToggleField(persistent, "_notify_custom")
+
+
+                null height (4 * gui.pref_spacing)
+
+                hbox:
+                    box_wrap True
+                    vbox:
+                        style_prefix "check"
+                        label _("Music Buttons\n[jg_s]{}".format("Solid" if persistent._use_outline_music_buttons else "Outline"))
+                        textbutton _("Solid"):
+                            action SetField(persistent, "_use_outline_music_buttons", True)
+                        textbutton _("Outline"):
+                            action SetField(persistent, "_use_outline_music_buttons", False)
+                    vbox:
+                        style_prefix "check"
+                        label _("Music Volume\n[jg_s]{}".format("Fast" if persistent._fast_vol_music else "Slow"))
+                        textbutton _("Fast"):
+                            action SetField(persistent, "_fast_vol_music", True)
+                        textbutton _("Slow"):
+                            action SetField(persistent, "_fast_vol_music", False)
 
 
                 null height (4 * gui.pref_spacing)
