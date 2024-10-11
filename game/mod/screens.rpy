@@ -1,4 +1,4 @@
-init 5:# Screens
+init 5:# Screens persistent._default_replays
 
     screen navigation():
 
@@ -29,7 +29,7 @@ init 5:# Screens
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
                     #action NullAction()
-                    action ShowMenu("replays")
+                    action ShowMenu("replays" if not persistent._default_replays else "replays_custom")
 
                 textbutton _("{size=40}Preferences{/size}"):
                     style "menu_text_button_custom"
@@ -96,8 +96,8 @@ init 5:# Screens
                 textbutton _("Load") action ShowMenu("load") style "menu_text_button_custom" text_style "menu_text_button_custom"
 
                 if main_menu:
-
-                    textbutton _("Replays") action ShowMenu("replays") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    
+                    textbutton _("Replays") action ShowMenu("replays" if not persistent._default_replays else "replays_custom") style "menu_text_button_custom" text_style "menu_text_button_custom"
 
                 textbutton _("Preferences") action ShowMenu("preferences") style "menu_text_button_custom" text_style "menu_text_button_custom"
 
@@ -122,6 +122,7 @@ init 5:# Screens
                     ## The quit button is banned on iOS and unnecessary on Android and
                     ## Web.
                     textbutton _("Quit") action Quit(confirm=not main_menu) style "menu_text_button_custom" text_style "menu_text_button_custom"
+    
     screen shortcuts():
         style_prefix "shortcuts"
         zorder 300
@@ -149,6 +150,7 @@ init 5:# Screens
             textbutton "?" action ToggleLocalVariable("shown"),With(dissolve) align (1.0, 0.05)
 
     screen main_menu():
+        use mod_check()
         $ tooltip = GetTooltip()
 
         ## This ensures that any other menu screen is replaced.
@@ -207,7 +209,7 @@ init 5:# Screens
                 hover "itch_hover"
                 style "menu_text_button_custom"
                 action OpenURL("https://passhonq.itch.io/academy-live")
-        $ mod_version = "[gui.jg_mod_version]" if gui.jg_mod_version == config.version else "Incompatible Mod"
+        $ mod_version = "Mod Compatible" if gui.jg_mod_version == config.version else "Mod Incompatible"
         vbox:
             text "{b}{u}[jg_1]JiG[jg_3][jg_2]SaW[jg_3]{/u}{/b}\nMOD Installed":
                 size gui.title_text_size-20
@@ -220,6 +222,20 @@ init 5:# Screens
                 text_align 0.5
                 action ShowMenu("mod_features")
                 tooltip "Click me to view mod features"
+    
+            if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
+                textbutton ("%s"%mod_updated[1]):
+                    text_size 25
+                    text_outlines [(2, "#0009", 1, 1)]
+                    text_align 0.5
+                    action OpenURL(gui.mod_update_url)
+                    tooltip "Click me to get updated mod"
+                textbutton "Mod Changelog":
+                    text_size 25
+                    text_outlines [(2, "#0009", 1, 1)]
+                    text_align 0.5
+                    action ShowMenu("mod_changelog")
+                    tooltip "View Mod Changelog"
 
         if tooltip:
             ## Use With Renpy Version Below 7.5 and 8.0
@@ -237,6 +253,20 @@ init 5:# Screens
                     hbox:
                         text tooltip
 
+    screen mod_changelog():
+        $ tooltip = GetTooltip()
+        tag menu
+
+        use game_menu("Mod Changelog", scroll="viewport"):
+            vbox:
+                spacing 10
+                for i in mod_changelog:
+                    for j in i:
+                        text j
+
+    screen mod_check():
+        timer 600 action SetVariable("mod_updated", get_latest_mod()) repeat True
+        
     screen mod_features():
         $ tooltip = GetTooltip()
         tag menu
@@ -245,45 +275,13 @@ init 5:# Screens
             vbox:
                 spacing 10
                 if gui.jg_mod_version == config.version:
-                    text "Custom Cheat Menu Toggled Using {a=#:None}{color=#f00}(END){/color}{/a} or button in Quick Menu" tooltip "Keyboard END"
-                    text "1. Manage Academy Options using {a=#:None}{color=#f00}(1){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-                    text "2. Manage Lawsuit Options using {a=#:None}{color=#f00}(2){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-                    text "3. Modify Student Traits using {a=#:None}{color=#f00}(3){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-                    text "4. Modify Teacher Traits using {a=#:None}{color=#f00}(4){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-                    text "5. Modify Teacher Traits using {a=#:None}{color=#f00}(5){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-                    text "Walkthrough"
-                    text "1. Walkthrough Suggestions Toggled using {a=#:None}{color=#f00}(W){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "2. Walkthrough Tooltips Toggled using {a=#:None}{color=#f00}(Shift+T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "Music Player"
-                    text "1. Music Player can be Toggled ingame using {a=#:None}{color=#f00}(M){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "2. Hovering over Volume Slider allows mousewheel up/down control" xoffset 50 
-                    text "Override Replays"
-                    text "1. View Empty Replays {a=#:None}{color=#f00}(E){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
-                    text "2. View Locked Replays {a=#:None}{color=#f00}(L){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
-                    text "Quick Menu Options"
-                    text "1. Quick Menu Visibility Options Toggled using {a=#:None}{color=#f00}(Q){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "2. Quick Menu Position Options Toggled Using {a=#:None}{color=#f00}(Shift+Q){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "Say Dialogue"
-                    text "1. Textbox Visibility Toggled using {a=#:None}{color=#f00}(T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "2. Slider in Preferences or NUM {a=#:None}{color=#f00}(+/-){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "3. Fancy Text Toggled using {a=#:None}{color=#f00}(F){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "4. Text Effect Toggled using {a=#:None}{color=#f00}(E){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "5. Text Always Effect Toggled using {a=#:None}{color=#f00}(R){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "Credit to {a=https://github.com/yukinogatari/Ren-Py-FancyText}yukinogatari{/a} for the original Fancytext Module Modified by\n[gui.mod_dev] for newer Ren'Py Compatibility" xoffset 50 tooltip "yukinogatari Github"
-                    text "Custom Save Names"
-                    text "1. Toggle Custom Savenames using {a=#:None}{color=#f00}(Shift+S){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "Hotkeys"
-                    text "1. Toggle Choice Hotkeys using {a=#:None}{color=#f00}(C){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "Notifications"
-                    text "1. Toggle Notification Stack/Standard using {a=#:None}{color=#f00}(N){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-                    text "Credit to {a=https://github.com/RenpyRemix/multi-notify}RenpyRemix{/a} for stackable notifications" xoffset 50 tooltip "RenpyRemix Github"
-                    text ""
-                    text "Latest MOD update available at {a=https://github.com/JiGSaWKilla89/academy_live_mod/releases}JiGSaW Games Studios{/a}" tooltip "Mod Developer"
-                    text "If you like what I do {a=https://buymeacoffee.com/jigsawgames}Buy me a beer{/a}" tooltip "Mod Developer BuyMeACoffee Page"
-                    text "And lastly {a=https://www.patreon.com/passhonQ}passhonQ{/a} for developing [config.name!t]" tooltip "Developer Patreon"
+                    use mod_options_text
                 else:
                     text "Mod is outdated {a=https://github.com/JiGSaWKilla89/academy_live_mod/releases}Click Here{/a} to Check for New Version"
                     text "Most mod options will work. Walkthrough will not be synced"
+                    text ""
+                    use mod_options_text
+                    
         if tooltip:
             ## Use With Renpy Version Below 7.5 and 8.0
             #frame:
@@ -299,6 +297,45 @@ init 5:# Screens
                     style_prefix "tooltip"
                     hbox:
                         text tooltip
+
+    screen mod_options_text():
+        text "Custom Cheat Menu Toggled Using {a=#:None}{color=#f00}(END){/color}{/a} or button in Quick Menu" tooltip "Keyboard END"
+        text "1. Manage Academy Options using {a=#:None}{color=#f00}(1){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
+        text "2. Manage Lawsuit Options using {a=#:None}{color=#f00}(2){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
+        text "3. Modify Student Traits using {a=#:None}{color=#f00}(3){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
+        text "4. Modify Teacher Traits using {a=#:None}{color=#f00}(4){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
+        text "5. Modify Teacher Traits using {a=#:None}{color=#f00}(5){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
+        text "Walkthrough"
+        text "1. Walkthrough Suggestions Toggled using {a=#:None}{color=#f00}(W){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "2. Walkthrough Tooltips Toggled using {a=#:None}{color=#f00}(Shift+T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "Music Player"
+        text "1. Music Player can be Toggled ingame using {a=#:None}{color=#f00}(M){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "2. Hovering over Volume Slider allows mousewheel up/down control" xoffset 50 
+        text "Override Replays"
+        text "1. View Empty Replays {a=#:None}{color=#f00}(E){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
+        text "2. View Locked Replays {a=#:None}{color=#f00}(L){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
+        text "Quick Menu Options"
+        text "1. Quick Menu Visibility Options Toggled using {a=#:None}{color=#f00}(Q){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "2. Quick Menu Position Options Toggled Using {a=#:None}{color=#f00}(Shift+Q){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "Say Dialogue"
+        text "1. Textbox Visibility Toggled using {a=#:None}{color=#f00}(T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "2. Slider in Preferences or NUM {a=#:None}{color=#f00}(+/-){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "3. Fancy Text Toggled using {a=#:None}{color=#f00}(F){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "4. Text Effect Toggled using {a=#:None}{color=#f00}(E){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "5. Text Always Effect Toggled using {a=#:None}{color=#f00}(R){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "Credit to {a=https://github.com/yukinogatari/Ren-Py-FancyText}yukinogatari{/a} for the original Fancytext Module Modified by\n[gui.mod_dev] for newer Ren'Py Compatibility" xoffset 50 tooltip "yukinogatari Github"
+        text "Custom Save Names"
+        text "1. Toggle Custom Savenames using {a=#:None}{color=#f00}(Shift+S){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "Hotkeys"
+        text "1. Toggle Choice Hotkeys using {a=#:None}{color=#f00}(C){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "Notifications"
+        text "1. Toggle Notification Stack/Standard using {a=#:None}{color=#f00}(N){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
+        text "Credit to {a=https://github.com/RenpyRemix/multi-notify}RenpyRemix{/a} for stackable notifications" xoffset 50 tooltip "RenpyRemix Github"
+        text ""
+        if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
+            text "Latest MOD update available at {a=gui.mod_update_url}JiGSaW Games Studios{/a}" tooltip "Mod Developer"
+        text "If you like what I do {a=https://buymeacoffee.com/jigsawgames}Buy me a beer{/a}" tooltip "Mod Developer BuyMeACoffee Page"
+        text "And lastly {a=https://www.patreon.com/passhonQ}passhonQ{/a} for developing [config.name!t]" tooltip "Developer Patreon"
 
     screen confirm_ok(message, ok_action=None):
         modal True
@@ -509,6 +546,14 @@ init 5:# Screens
                                 action SetField(persistent, "_choice_tooltips", True)
                             textbutton _("Disabled"):
                                 action SetField(persistent, "_choice_tooltips", False)
+
+                    vbox:
+                        style_prefix "check"
+                        label _("Custom Replays\n[jg_s]")
+                        textbutton _("Enabled"):
+                            action SetField(persistent, "_default_replays", True)
+                        textbutton _("Disabled"):
+                            action SetField(persistent, "_default_replays", False)
 
                 null height (4 * gui.pref_spacing)
 
@@ -955,7 +1000,7 @@ init 5:# Screens
                 if _go_to_page.isdigit():
                     key "input_enter" action FilePage(int(_go_to_page)),SetVariable("_go_to_page",""),the_page.Disable()
 
-    screen replays():
+    screen replays_custom():
 
         tag menu
 
