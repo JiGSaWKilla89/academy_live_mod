@@ -1,11 +1,10 @@
 init 1000 python:
+    """
+    Within this script is all the functions necessary to list, 
+    extract and compare files.
+    The main function here is the walthrough_dict' that returns the walkthrough data
+    """
     import os
-
-    #update_wt("events.rpy")
-    #update_wt("script.rpy")
-    def update_wt(file):
-        with renpy.open_file(file, encoding="utf-8") as readfile:
-            return readfile.readlines()
 
     def walkthrough_dict():
         green = "#0F0"
@@ -817,43 +816,46 @@ init 1000 python:
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 16176) : {#TODO
+            ("events.rpyc", 16176) : {
                 "Punish her" : {
-                    "wt" : f"{_dech}",
+                    "wt" : f"{_dech} {_recc}",
                     "hint" : [
-                        "[kiyomi.name] ",
+                        f"{_boar} Satisfaction 6.5 (Possible)",
+                        f"{_boar} Increase 40 (Possible)",
                         ],
                     "color" : pink
                     },
                 "Let her go" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[kiyomi.name] ",
+                        "[kiyomi.name] Dictionary | Anal_Punishment=False", #[kiyomi.name] 
                         ],
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 16698) : {#TODO
+            ("events.rpyc", 16698) : {
                 "Use the massive dildo" : {
-                    "wt" : f"{_dech}",
+                    "wt" : f"{_dech} {_recc}",
                     "hint" : [
-                        "[kiyomi.name] ",
+                        f"{_boar} Satisfaction +2",
+
                         ],
                     "color" : pink
                     },
                 "Don't" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[kiyomi.name] ",
                         ],
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 16885) : {#TODO
+            ("events.rpyc", 16885) : {
                 "Fuck her ass" : {
-                    "wt" : f"{_dech}",
+                    "wt" : f"{_dech} {_recc}",
                     "hint" : [
-                        "[kiyomi.name] ",
+                        "[kiyomi.name] Dictionary | Anal_Punishment=True", #[kiyomi.name] 
+                        "[kiyomi.name] Topics | Anal_Sex_MC_Punishment", #[kiyomi.name] 
+                        f"{_boar} Satisfaction +2",
                         ],
                     "color" : pink
                     },
@@ -865,11 +867,11 @@ init 1000 python:
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 17267) : {#TODO
+            ("events.rpyc", 17267) : {
                 "Piss inside her ass" : {
-                    "wt" : f"{_dech}",
+                    "wt" : f"{_dech} {_recc}",
                     "hint" : [
-                        "[kiyomi.name] ",
+                        f"{_boar} Satisfaction +1",
                         ],
                     "color" : pink
                     },
@@ -881,23 +883,28 @@ init 1000 python:
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 18063) : {#TODO
+            ("events.rpyc", 18063) : {
                 "Let's do this" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        
+                        "[yoko.name] Topics | Love_MC (possible)",
+                        f"{_view} +250",
+                        f"{_aplc} +2",
+                        f"{_oupr} +1",
+                        "[main.name] Corruption +1"
                         ],
                     "color" : pink
                     },
                 "Maybe some other time" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "{_view} -200",
+                        "[yoko.name] Topics | Refused_MC (possible), Like_MC (possible)",
+                        f"{_view} -200",
                         ],
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 18460) : {#TODO
+            ("events.rpyc", 18460) : {
                 "Fuck her ass next" : {
                     "wt" : f"{_dech}",
                     "hint" : [
@@ -920,7 +927,7 @@ init 1000 python:
                     "color" : pink
                     },
                 },
-            ("events.rpyc", 18471) : {#TODO
+            ("events.rpyc", 18471) : {
                 "Fuck her pussy" : {
                     "wt" : f"{_dech}",
                     "hint" : [
@@ -931,12 +938,11 @@ init 1000 python:
                 "Fuck her ass" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-
                         ],
                     "color" : pink
                     }
                 },
-            ("events.rpyc", 20657) : {#TODO
+            ("events.rpyc", 20657) : {
                 "Remove [ay]'s Strike" : {
                     "wt" : f"{_goch}",
                     "hint" : [
@@ -1222,50 +1228,40 @@ init 1000 python:
                     "color" : blue
                     },
                 },
-            ("events.rpyc", 32309) : {#TODO
+            ("events.rpyc", 32309) : {
                 "Go for it" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[ayumi.name] ",
+                        "[natsuha.name] Dictionary | First_meeting_H=True",
+                        "[ayumi.name] Affection -1 (Possible)",
+                        "[ayumi.name] Corruption +1",
                         ],
-                    "color" : blue
+                    "color" : pink
                     },
                 "Refuse" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[ayumi.name] ",
+                        "[natsuha.name] Dictionary | First_meeting_H=False",
+                        "[ayumi.name] Affection +2",
                         ],
-                    "color" : blue
+                    "color" : pink
                     },
                 },
-            ("events.rpyc", 32885) : {#TODO
+            ("events.rpyc", 32885) : {
                 "Tell the truth" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[ayumi.name] ",
+                        "[ayumi.name] lied to = False",
+                        "[ayumi.name] Corruption +1",
                         ],
                     "color" : blue
                     },
                 "Lie" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[ayumi.name] ",
-                        ],
-                    "color" : blue
-                    },
-                },
-            ("events.rpyc", 33767) : {#TODO
-                "Your Baseball Bat was confiscated." : {
-                    "wt" : f"{_dech}",
-                    "hint" : [
-                        "[ayumi.name] ",
-                        ],
-                    "color" : blue
-                    },
-                "Nevermind" : {
-                    "wt" : f"{_dech}",
-                    "hint" : [
-                        "[ayumi.name] ",
+                        "[ayumi.name] lied to = True",
+                        "[ayumi.name] Affection -1 (Possible)",
+                        "[ayumi.name] Corruption +1",
                         ],
                     "color" : blue
                     },
@@ -1323,7 +1319,9 @@ init 1000 python:
 
     valid_dic_items = [#Changes Every Update
         ("events.rpyc", 3152), ("events.rpyc", 23450),
-        ("script.rpyc", 8659), 
+        ("script.rpyc", 8659), ("script.rpyc", 4531),
+        ("script.rpyc", 8383), ("script.rpyc", 11239),
+        ("events.rpyc", 16176), ("events.rpyc", 16885),
         ]
 
     script_ignore_lines = [#Changes Every Update
@@ -1332,11 +1330,68 @@ init 1000 python:
         ]
 
     event_ignore_lines = [#Changes Every Update
-        47, 138, 34070, 34276, 34456, 34665, 34897, 
-        35052, 35183, 35212, 36115
+        47, 138, 32885, 34070, 34276, 34456, 34665, 34897, 
+        35052, 35183, 35212, 36115, 
         ]
 
-    def check_dic(dic, scripts):
+    student_ignore_lines = [#Changes Every Update
+        460, 534, 843, 1557, 1617, 2094
+        ]
+    
+    ignore_list = [
+        ]
+
+    end_list = [
+        ".flac", ".mp3", ".ogg", "opus", ".wav", #Audio Extensions
+        ".webm", ".avi", ".mp4", ".mkv", ".ogv", #Video Extensions
+        ".webp", ".png", ".jpg", #Image Extensions
+        ".rpyc", ".rpa", #Renpy Extensions
+        ".ttf", ".otf", #Font Extensions
+        ".txt", #Other Extensions
+        ]
+
+    def read_rpy_file(file):
+        with renpy.open_file(file, encoding="utf-8") as readfile:
+            return readfile.readlines()
+
+    def extract_rpy(name):
+        """
+        Extract the rpy file within the basedir to folder extracted_files
+        """
+        folder = os.path.join(config.basedir, "extracted_files")
+        path = os.path.join(folder, f"extracted_{name.replace('/', '_-_')}")
+
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+
+        f = read_rpy_file(name)
+
+        with open(path, "w", encoding="utf-8") as d:
+            d.writelines(f)
+
+    def check_dic(current_dictionary, scripts, use_precise=True):
+        """
+        Generate a dictionary from 'scripts' containing
+        'short_key', 'name' and 'path'
+        This grabs the full .rpy file while busy
+
+        Iterate over 'generated_dictionary' and 'current_dictionary'
+        to do comparisons of files and lines
+
+        Uses two functions to find the menu lines to see if they match 'current_dictionary'
+
+        Function 'find_closest_menu_before_name' uses a range checker to match where 
+        menu is found and searches backwards using a distance checker (Precise Search)
+
+        Function 'find_menu_before_name' uses a range checker to match where
+        menu is found and searches backwards no distance (Fuzzy Search)
+
+        Outputs data to 'walkthrough_check.txt' to make corrections and check
+
+        """
+
+        counter = 0
+        generated_dictionary = {}
 
         def find_closest_menu_before_name(lines, name, r_count, out=False):
             closest_menu_line = None
@@ -1379,16 +1434,13 @@ init 1000 python:
                 print(line)
                 file.write("{}\n".format(line))
 
-        counter = 0
-        lst = {}
+        for short_key, name, path in scripts:
+            generated_dictionary[short_key] = [name, read_rpy_file(path), path]
+            extract_rpy(path)
 
-        # Populate the lst dictionary with the script information
-        for v, n, file in scripts:
-            lst[v] = [n, update_wt(file), file]
-
-        # Iterate over the lst dictionary and the dic dictionary
-        for key, value in lst.items():
-            for wt_key, wt_value in dic.items():
+        # Iterate over the generated dictionary and the current walkthrough dictionary
+        for key, value in generated_dictionary.items():
+            for wt_key, wt_value in current_dictionary.items():
                 r_count = wt_key[1]
                 # Check if the name in value[0] is part of the current wt_key[0]
                 if value[0] in wt_key[0]:
@@ -1397,28 +1449,62 @@ init 1000 python:
                         ln = find_closest_menu_before_name(value[1], f'"{name}"', r_count) #Precise Search
                         al = find_menu_before_name(value[1], f'"{name}"') #Fuzzy Search
                         # Create the tuple with the filename and the line number
-                        d = ("{}c".format(value[2]), ln)
-                        e = ("{}c".format(value[2]), al)
+                        d = ("{}c".format(value[2]), ln) if use_precise else  ("{}c".format(value[2]), al) #Create the correct value .rpyc and line number
                         # Print the result with the correct key and value
                         if wt_key != d and not wt_key in valid_dic_items:
                             counter += 1
                             output("Current: {}\nNew: {}\nLine: {}\nCould Be Mistaken For a Sub Menu\n".format(wt_key, d, name))
-        return counter
+        return f"Total Items not matching correctly: {counter}"
 
     def filter_wt(fil):
+        """
+
+        'fil' needs to be the full path eg '"new scripts/Student Interaction.rpy"' or
+        'script.rpy'
+
+        It will match the lines from the file with the walkthrough dictionary
+        """
+       
         out = []
+
         for script, i in walkthrough_dict().keys():
             if fil in script:
                 out.append(i)
+       
         return out
+
+    def get_rpy_files(ignore_list=ignore_list, end_list=end_list):
+        """
+        
+        This Function Gets all the files mainly '.rpy'
+        files.
+        
+        Add files to ignore in 'ignore_list'
+        
+        Add extensions to ignore in 'end_list'
+
+        """
+        for file in renpy.list_files():
+            if file.startswith(("python-packages", "mod", "tl")):
+                continue
+            if not file in ignore_list:
+                if not file.endswith(tuple(end_list)):
+                    print(file)
 
     def get_menu_lines(filename, ignore_lines):
         """
         This Function will find all the menu lines in the script
+        
+        Function will output data to 'menu_finder.txt' in the base
+        game dir
+
+        Uses external Function 'read_rpy_file' to open the files within
+        the archives
+
         """
 
         output_data = []
-        data = update_wt(filename)
+        data = read_rpy_file(filename)
         p = os.path.join(config.basedir, "menu_finder.txt")
 
         for i, line in enumerate(data, 1):
@@ -1435,7 +1521,21 @@ init 1000 python:
         """
         Use this to check if the lines match up after
         every update an get new menu items.
+
+        Uses external function 'get_menu_lines'
+        whilst checking to find current_lines using 'filter_wt' and ignore lists
+
+        Uses external function 'check_dic'
+
         """
         get_menu_lines("script.rpy", filter_wt("script")+script_ignore_lines)
         get_menu_lines("events.rpy", filter_wt("events")+event_ignore_lines)
-        check_dic(walkthrough_dict(),[("sc", "script", "script.rpy"), ("ev", "events", "events.rpy")])
+        get_menu_lines("new scripts/Student Interaction.rpy", filter_wt("Student Interaction")+student_ignore_lines)
+        check_dic(walkthrough_dict(),[
+            ("sc", "script", "script.rpy"), 
+            ("ev", "events", "events.rpy"), 
+            ("si", "interactions", "new scripts/Student Interaction.rpy")
+            ])
+
+    
+#check_dic(walkthrough_dict(),[("sc", "script", "script.rpy"), ("ev", "events", "events.rpy"), ("si", "interactions", "new scripts/Student Interaction.rpy")])
