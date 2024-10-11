@@ -1019,35 +1019,39 @@ init 5:# Screens persistent._default_replays
                 spacing 50
 
                 if girls[landing_page] in main_girls_replay:
-
-
                     for i in _cheats_replay:
                         if i.girl == girls[landing_page]:
-                            imagebutton:
-                                style "menu_text_button_custom"
-                                if not persistent._unlocked_gallery:
-                                    insensitive "Locked_Replay_idle"
-                                idle i.label + "_idle"
-                                hover i.label + "_hover"
-                                at fzoom
-                                if getattr(persistent, i.flag):
-                                    action Replay(i.label, scope=i.dic, locked=False)
-                                else:
-                                    action Replay(i.label, scope=i.dic, locked=not persistent._unlocked_gallery)
+                            if i.sharing and not persistent._sharing_content:
+                                continue
+                            else:
+                                imagebutton:
+                                    style "menu_text_button_custom"
+                                    if not persistent._unlocked_gallery:
+                                        insensitive "Locked_Replay_idle"
+                                    idle i.label + "_idle"
+                                    hover i.label + "_hover"
+                                    at fzoom
+                                    if getattr(persistent, i.flag):
+                                        action Replay(i.label, scope=i.dic, locked=False)
+                                    else:
+                                        action Replay(i.label, scope=i.dic, locked=not persistent._unlocked_gallery)
                 else:
                     for i in _cheats_replay:
                         if i.girl not in main_girls_replay:
-                            imagebutton:
-                                style "menu_text_button_custom"
-                                if not persistent._unlocked_gallery:
-                                    insensitive "Locked_Replay_idle"
-                                idle i.label + "_idle"
-                                hover i.label + "_hover"
-                                at fzoom
-                                if getattr(persistent, i.flag):
-                                    action Replay(i.label, scope=i.dic, locked=False)
-                                else:
-                                    action Replay(i.label, scope=i.dic, locked=not persistent._unlocked_gallery)
+                            if i.sharing and not persistent._sharing_content:
+                                continue
+                            else:
+                                imagebutton:
+                                    style "menu_text_button_custom"
+                                    if not persistent._unlocked_gallery:
+                                        insensitive "Locked_Replay_idle"
+                                    idle i.label + "_idle"
+                                    hover i.label + "_hover"
+                                    at fzoom
+                                    if getattr(persistent, i.flag):
+                                        action Replay(i.label, scope=i.dic, locked=False)
+                                    else:
+                                        action Replay(i.label, scope=i.dic, locked=not persistent._unlocked_gallery)
 
         vbox:
             spacing 15
@@ -1118,13 +1122,16 @@ init 5:# Screens persistent._default_replays
             yalign 0.07
         vbox:
             style_prefix "replay_unlocked"
-            textbutton "{} Empty Replays".format("View" if not persistent._show_empty_gallery else "Hide") action ToggleField(persistent, "_show_empty_gallery")
+            textbutton "Sharing %s"%("On".zfill(2) if persistent._sharing_content else "Off") action ToggleField(persistent, "_sharing_content")
             if not Unlock_Replays().get_selected():
                 textbutton ("Lock Replays".zfill(4) if persistent._unlocked_gallery else "Unlock Replays"):
                     action ToggleField(persistent, "_unlocked_gallery")
+            textbutton "{} Empty Replays".format("View" if not persistent._show_empty_gallery else "Hide") action ToggleField(persistent, "_show_empty_gallery")
+            
 
         key "K_e" action ToggleField(persistent, "_show_empty_gallery")
         key "K_l" action ToggleField(persistent, "_unlocked_gallery")
+        key "K_s" action ToggleField(persistent, "_sharing_content")
 
     transform input_appear(t=1):
         alpha 0.0
