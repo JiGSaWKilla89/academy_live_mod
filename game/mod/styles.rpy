@@ -132,16 +132,16 @@ init 1:# Styles Cheats
         xalign 0.5
         left_bar Frame(Solid("#000"), gui.bar_borders, tile=gui.bar_tile)
         right_bar Frame(Solid("#FB4301"), gui.bar_borders, tile=gui.bar_tile)
-        hover_left_bar Frame(Solid(adj_bri("#000", 50)), gui.bar_borders, tile=gui.bar_tile)
-        hover_right_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.bar_borders, tile=gui.bar_tile)
+        hover_left_bar Frame(Solid(adjust_brightness("#000", 50)), gui.bar_borders, tile=gui.bar_tile)
+        hover_right_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.bar_borders, tile=gui.bar_tile)
 
     style cheat_management_slider is gui_slider:
         xsize 500
         xalign 0.5
         base_bar Frame(Solid("#FB4301"), gui.slider_borders, tile=gui.slider_tile)
         thumb Transform(Solid("#000"),ysize=gui.slider_size, xsize=30)
-        hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.slider_borders, tile=gui.slider_tile)
-        hover_thumb Transform(Solid(adj_bri("#000", 50)),ysize=gui.slider_size, xsize=30)
+        hover_base_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.slider_borders, tile=gui.slider_tile)
+        hover_thumb Transform(Solid(adjust_brightness("#000", 50)),ysize=gui.slider_size, xsize=30)
 
     style cheat_management_button is gui_button:
         padding (10,10,10,10)
@@ -166,16 +166,17 @@ init 1:# Styles Cheats
         xalign 1.0
         base_bar Frame(Solid("#FB4301"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         thumb Frame(Solid("#000"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_thumb Frame(Solid(adj_bri("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_base_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_thumb Frame(Solid(adjust_brightness("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         hover_sound "audio/sfx/button_h.mp3"
         activate_sound "audio/sfx/button_a.mp3"
+
     style cheat_management_scrollbar is gui_scrollbar:
         unscrollable "hide"
         base_bar Frame(Solid("#FB4301"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         thumb Frame(Solid("#000"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_thumb Frame(Solid(adj_bri("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_base_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_thumb Frame(Solid(adjust_brightness("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
     style cheat_students_vbox:
         xsize 520
@@ -203,32 +204,33 @@ init 1:# Styles Cheats
         xalign 1.0
         base_bar Frame(Solid("#FB4301"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         thumb Frame(Solid("#000"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_thumb Frame(Solid(adj_bri("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_base_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_thumb Frame(Solid(adjust_brightness("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         hover_sound "audio/sfx/button_h.mp3"
         activate_sound "audio/sfx/button_a.mp3"
+
     style cheat_students_scrollbar is gui_scrollbar:
         unscrollable "hide"
         base_bar Frame(Solid("#FB4301"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
         thumb Frame(Solid("#000"), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-        hover_thumb Frame(Solid(adj_bri("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_base_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+        hover_thumb Frame(Solid(adjust_brightness("#000", 50)), gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
     style cheat_students_bar is gui_bar:
         xsize 500
         xalign 0.5
         left_bar Frame(Solid("#000"), gui.bar_borders, tile=gui.bar_tile)
         right_bar Frame(Solid("#FB4301"), gui.bar_borders, tile=gui.bar_tile)
-        hover_left_bar Frame(Solid(adj_bri("#000", 50)), gui.bar_borders, tile=gui.bar_tile)
-        hover_right_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.bar_borders, tile=gui.bar_tile)
+        hover_left_bar Frame(Solid(adjust_brightness("#000", 50)), gui.bar_borders, tile=gui.bar_tile)
+        hover_right_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.bar_borders, tile=gui.bar_tile)
 
     style cheat_students_slider is gui_slider:
         xsize 500
         xalign 0.5
         base_bar Frame(Solid("#FB4301"), gui.slider_borders, tile=gui.slider_tile)
         thumb Transform(Solid("#000"),ysize=gui.slider_size, xsize=30)
-        hover_base_bar Frame(Solid(adj_bri("#FB4301", 50)), gui.slider_borders, tile=gui.slider_tile)
-        hover_thumb Transform(Solid(adj_bri("#000", 50)),ysize=gui.slider_size, xsize=30)
+        hover_base_bar Frame(Solid(adjust_brightness("#FB4301", 50)), gui.slider_borders, tile=gui.slider_tile)
+        hover_thumb Transform(Solid(adjust_brightness("#000", 50)),ysize=gui.slider_size, xsize=30)
 
     style cheats_inline:
         size 30
@@ -239,7 +241,6 @@ init 1:# Styles Cheats
         size 30
         color "#000000"
         font "gui/fonts/CrimsonText-SemiBold.ttf"
-
 
     style cheats_inline_itallic:
         italic True
@@ -273,7 +274,6 @@ init 1:# Styles Cheats
     style cheats_inline_random:
         size 22
         font "gui/fonts/CrimsonText-SemiBold.ttf"
-
 
     style cheats_student_vscrollbar is cheat_students_vscrollbar
 
