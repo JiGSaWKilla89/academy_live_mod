@@ -1,2 +1,6 @@
-11/10/2024
-0.06.2.2_alpha
+{
+    "date_update" : "11/10/2024",
+    "version_game" : "0.06.2.2_alpha",
+    "version_update" : 1,
+    "changelog" : ["Updated Mod Updated Check", "Updated Function"]
+}
