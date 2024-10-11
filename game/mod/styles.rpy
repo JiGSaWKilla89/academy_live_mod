@@ -102,7 +102,7 @@ init 1:# Styles
         #underline True
     style replay_unlocked_vbox:
         xsize 600
-        align (0.98,0.98)
+        align (0.96,0.98)
 
     style shortcuts_button_text is gui_button_text:
         outlines [(2, "#0009", 1, 1)]
