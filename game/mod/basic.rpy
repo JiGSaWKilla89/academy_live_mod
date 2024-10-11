@@ -57,6 +57,7 @@ init -5 python:
         global mod_changelog
         # URL of the file containing the dictionary
         url = 'https://raw.githubusercontent.com/JiGSaWKilla89/academy_live_mod/main/version'
+        response = None  # Initialize response to None
 
         # Fetch the file from the URL
         try:
@@ -90,11 +91,17 @@ init -5 python:
             else:
                 return "Could Not Connect to Host"
         except requests.ConnectionError as ce:
-            renpy.write_log(f"HTTP Error: Received status code {response.status_code}: {ce}")
+            if response is not None:
+                renpy.write_log(f"HTTP Error: Received status code {response.status_code}: {ce}")
+            else:
+                renpy.write_log(f"Connection Error: {ce}")
             return "HTTP Error", gui.jg_mod_version
+
         except requests.Timeout as rto:
             renpy.write_log(f"Timeout: The request timed out {rto}")
             return "Timeout", gui.jg_mod_version
+
         except requests.RequestException as e:
             renpy.write_log(f"Request Error: {e}")
             return "Request Error", gui.jg_mod_version
+
