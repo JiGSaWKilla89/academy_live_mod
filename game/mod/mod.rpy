@@ -47,6 +47,9 @@ init -5 python:
     config.rollback_length = 100
     config.hard_rollback_limit = 150
 
+    if not persistent._default_replays:
+        persistent._default_replays = False
+
     if not persistent._always_effect_title:
         persistent._always_effect_title = "None"
 
@@ -142,7 +145,7 @@ init -5 python:
         "with_statement", "xrange", "zoomin", "zoominout", "zoomout", "always_pulse", "always_shake", "slow_fade", 
         "slow_nonsense", "slow_rotate", "slow_shake", "slow_shaking_slide", "slow_slide_down", "slow_slide_left", 
         "slow_slide_right", "slow_slide_up", "slow_typewriter", "check_dic", "find_closest_menu_before_name",
-        "jg_1", "jg_2", "jg_3", "jg_s", "shortcuts", "valid_dic_items", "update_wt", "wt_choice_tooltip",
+        "jg_1", "jg_2", "jg_3", "jg_s", "shortcuts", "valid_dic_items", "read_rpy_file", "wt_choice_tooltip",
         "ToggleWalkthrough", "ToggleSavename", "ToggleChoiceToolTips", "ToggleTextbox", "WideRatio", "custom_join",
         ]
 
@@ -215,9 +218,7 @@ init -5 python:
 
     bypass_list = sorted(list(set([i.strip() for i in bypass_list])))
 
-    import inspect
-
-    def adj_bri(hex_color, levels):
+    def adjust_brightness(hex_color, levels):
         def clamp(value):
             return max(0, min(255, value))
 
@@ -281,6 +282,7 @@ init -5 python:
         else:
             config.autoreload = True
 
+    #Text Returns
     def TextSpeed():
         _cps_value = int(round(preferences.text_cps))
         _cps_value = '200' if _cps_value == 0 else _cps_value
@@ -752,47 +754,26 @@ label splashscreen:
     hide text with dissolve
     with Pause(1)
 
-    return
+    $ mod_updated = get_latest_mod()
 
-init 100:# Defaults
-    # Academy Live
-    define d = Dissolve(0.1)
-    define d1 = Dissolve (0.5)
-    define d2 = Dissolve (1.0)
+    return
 
 init 1:# Defaults
     image splashText = Text(shortcuts.strip(), style="splash")
     default preferences.text_cps = 120
     default persistent._unlocked_gallery = False
     default persistent._show_empty_gallery = False
-    define gui.slot_delete_text_idle_color = "#F00"
-    define gui.slot_delete_text_outlines = [(2, "#0009", 1, 1)]
-    define gui.input_prompt_text_outlines = [ (2, "#00000080", 0, 0) ]
-    define gui.input_button_text_outlines = [ (2, "#00000080", 0, 0) ]
-    define gui.quick_button_text_outlines = [(2, "#0009", 1, 1)]
 
     default _go_to_page = ""
     default jg_s = "{size=24}"
     default jg_1 = "{color=#FB4301}"
     default jg_2 = "{color=#000000}"
     default jg_3 = "{/color}"
-    define config.end_game_transition = dissolve
-    define config.end_splash_transition = dissolve
-    define config.enter_replay_transition = dissolve
-    define config.exit_replay_transition = dissolve
-    define config.after_load_transition = dissolve
-    define config.end_game_transition = dissolve
-    define config.game_main_transition = dissolve
-    define config.main_game_transition = dissolve
-
-    define gui.jg_mod_version = '0.06.2.1_alpha'
-    define gui.built_in_cheats = "IWBUWS"
 
     default notify_messages = []
     default notify_duration = 4.0
     default notify_history_length = 5
-    define gui.mod_dev = "JiGSaW Games Studios"
-
+    
     default char_dict_female = {}
     default char_dict_male = {}
 
@@ -1159,7 +1140,7 @@ init python:# Init Cheats
         elif rstd.intelligence < 0.5:
             return "{=cheats_inline_20}Dim" 
 
-    def update_wt(file):
+    def read_rpy_file(file):
         with renpy.open_file(file, encoding="utf-8") as readfile:
             return readfile.readlines()
 
@@ -1174,7 +1155,7 @@ init python:# Init Cheats
         #Flag, Girl, Name, Block, Dict, Desc
         out = []
 
-        data = update_wt(script)
+        data = read_rpy_file(script)
 
         for line in data:
             line = line.strip()
@@ -1187,7 +1168,6 @@ init python:# Init Cheats
                     fix = ", ".join([d[-2],d[-1]])
                     d = [i for i in d[0:5]]
                     d.append(fix)
-                #print(len(d), d )
 
                 var = d[0]
                 char = d[1]
@@ -1211,14 +1191,14 @@ init python:# Init Cheats
 
     class ReplayCheat():
         def __init__(self, flag, girl, name, label, dic, desc, idle, hover, size):
-            self.flag  = flag
-            self.girl  = girl
-            self.name  = name
-            self.label = label
-            self.dic   = dic
-            self.desc  = desc
-            self.idle = Transform(idle, xysize=size)
-            self.hover = Transform(hover, xysize=size)
+            self.flag        = flag
+            self.girl        = girl
+            self.name        = name
+            self.label       = label
+            self.dic         = dic
+            self.desc        = desc
+            self.idle        = Transform(idle, xysize=size)
+            self.hover       = Transform(hover, xysize=size)
             self.insensitive = Transform(idle, xysize=size, matrixcolor=SaturationMatrix(0.2))
 
     _cheats_replay = GenerateReplays("Replay System.rpy")
