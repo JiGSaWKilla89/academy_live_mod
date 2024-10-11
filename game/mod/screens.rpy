@@ -1021,33 +1021,33 @@ init 5:# Screens persistent._default_replays
                 if girls[landing_page] in main_girls_replay:
 
 
-                    for i_replay in Replay_List:
-                        if i_replay.girl == girls[landing_page]:
+                    for i in _cheats_replay:
+                        if i.girl == girls[landing_page]:
                             imagebutton:
                                 style "menu_text_button_custom"
                                 if not persistent._unlocked_gallery:
                                     insensitive "Locked_Replay_idle"
-                                idle i_replay.block + "_idle"
-                                hover i_replay.block + "_hover"
+                                idle i.label + "_idle"
+                                hover i.label + "_hover"
                                 at fzoom
-                                if i_replay.flag == True:
-                                    action Replay(i_replay.block, scope=i_replay.dict, locked=False)
+                                if getattr(persistent, i.flag):
+                                    action Replay(i.label, scope=i.dic, locked=False)
                                 else:
-                                    action Replay(i_replay.block, scope=i_replay.dict, locked=not persistent._unlocked_gallery)
+                                    action Replay(i.label, scope=i.dic, locked=not persistent._unlocked_gallery)
                 else:
-                    for i_replay in Replay_List:
-                        if i_replay.girl not in main_girls_replay:
+                    for i in _cheats_replay:
+                        if i.girl not in main_girls_replay:
                             imagebutton:
                                 style "menu_text_button_custom"
                                 if not persistent._unlocked_gallery:
                                     insensitive "Locked_Replay_idle"
-                                idle i_replay.block + "_idle"
-                                hover i_replay.block + "_hover"
+                                idle i.label + "_idle"
+                                hover i.label + "_hover"
                                 at fzoom
-                                if i_replay.flag == True:
-                                    action Replay(i_replay.block, scope=i_replay.dict, locked=False)
+                                if getattr(persistent, i.flag):
+                                    action Replay(i.label, scope=i.dic, locked=False)
                                 else:
-                                    action Replay(i_replay.block, scope=i_replay.dict, locked=not persistent._unlocked_gallery)
+                                    action Replay(i.label, scope=i.dic, locked=not persistent._unlocked_gallery)
 
         vbox:
             spacing 15
