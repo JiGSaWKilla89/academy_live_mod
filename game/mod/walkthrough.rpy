@@ -1192,9 +1192,9 @@ init 1000 python:
                     "color" : blue
                     },
                 },
-            ("events.rpyc", 31544) : {#TODO
+            ("events.rpyc", 31544) : {
                 "Let [ay] show them her tits" : {
-                    "wt" : f"{_goch}",
+                    "wt" : f"{_dech}",
                     "hint" : [
                         "[ayumi.name] Topics | thugs_tits",
                         "[ayumi.name] Sexstats | Shared +1",
@@ -1203,7 +1203,7 @@ init 1000 python:
                     "color" : green
                     },
                 "Just give them money" : {
-                    "wt" : f"{_goch}",
+                    "wt" : f"{_dech}",
                     "hint" : [
                         "[ayumi.name] Affection +2",
                         "[ayumi.name] Strike -1",
@@ -1212,20 +1212,19 @@ init 1000 python:
                     "color" : green
                     },
                 },
-            ("events.rpyc", 31674) : {#TODO
+            ("events.rpyc", 31674) : {
                 "Let them touch her" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[ayumi.name] ",
+                        "[ayumi.name] Topics | thugs_tits_touch",
                         ],
-                    "color" : blue
+                    "color" : pink
                     },
                 "No" : {
                     "wt" : f"{_dech}",
                     "hint" : [
-                        "[ayumi.name] ",
                         ],
-                    "color" : blue
+                    "color" : pink
                     },
                 },
             ("events.rpyc", 32309) : {
