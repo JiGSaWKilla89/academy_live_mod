@@ -763,6 +763,7 @@ init 1:# Defaults
     default preferences.text_cps = 120
     default persistent._unlocked_gallery = False
     default persistent._show_empty_gallery = False
+    default persistent._sharing_content = False
 
     default _go_to_page = ""
     default jg_s = "{size=24}"
@@ -1160,11 +1161,15 @@ init python:# Init Cheats
         for line in data:
             line = line.strip()
             line = line.replace('"', '').replace("\\","")
+            ntr = False
             if "Replays(persistent." in line:
                 start_index = line.find("Replays(persistent.") + len("Replays(persistent.")
                 s = line[start_index:].replace(")", "")
                 d = s.split(", ")
-                if len(d) > 6:
+
+                if d[-1].startswith("ntr"):
+                    ntr = True
+                else:
                     fix = ", ".join([d[-2],d[-1]])
                     d = [i for i in d[0:5]]
                     d.append(fix)
@@ -1185,18 +1190,19 @@ init python:# Init Cheats
                     d[5] = d[5].replace(og, rp)
                 desc = d[5]
                 #Variable, Girl, Girl_Name, Replay Name, Label, Desc
-                out.append(ReplayCheat(var, char, name, label, dic, desc, button_idle, button_hover, WideRatio(384)))
+                out.append(ReplayCheat(var, char, name, label, dic, desc, ntr, button_idle, button_hover, WideRatio(384)))
 
         return out
 
     class ReplayCheat():
-        def __init__(self, flag, girl, name, label, dic, desc, idle, hover, size):
+        def __init__(self, flag, girl, name, label, dic, desc, sharing, idle, hover, size):
             self.flag        = flag
             self.girl        = girl
             self.name        = name
             self.label       = label
             self.dic         = dic
             self.desc        = desc
+            self.sharing     = sharing
             self.idle        = Transform(idle, xysize=size)
             self.hover       = Transform(hover, xysize=size)
             self.insensitive = Transform(idle, xysize=size, matrixcolor=SaturationMatrix(0.2))
