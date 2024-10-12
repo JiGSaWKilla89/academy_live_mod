@@ -855,6 +855,8 @@ init 5:# Screens persistent._default_replays
         $ qp = persistent._quick_menu_layout
         if persistent._quick_menu_layout in ["bottom_center", "top_center"]:
             hbox:
+                if renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout == "top_center":
+                    yalign 0.05
                 xalign 0.5
                 style_prefix "quick_menu_%s"%persistent._quick_menu_layout
                 text "···"
@@ -862,6 +864,8 @@ init 5:# Screens persistent._default_replays
     screen quick_layout:
         if persistent._quick_menu_layout in ["bottom_center", "top_center"]:
             hbox:
+                if renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout == "top_center":
+                    yalign 0.05
                 style_prefix "quick_menu_%s"%persistent._quick_menu_layout
                 use quick_menu_buttons
 
@@ -875,7 +879,7 @@ init 5:# Screens persistent._default_replays
 
         if persistent._quick_menu_layout == "top_center":
             mousearea:
-                align (0.5,0.05)
+                align (0.5,0.05 if renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout == "top_center" else 0.0)
                 xysize (config.screen_width, gui.text_size)
                 hovered ToggleScreenVariable("quick_hover", True),With(dissolve)
                 unhovered ToggleScreenVariable("quick_hover", False),With(dissolve)
@@ -1409,12 +1413,14 @@ init 5:# Screens persistent._default_replays
         zorder 1000
         tag notify_container
         fixed:
-            align (0.5,0.05)
+            align (0.5, 0.05 if renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout in ["top_center", "bottom_center"]\
+                or not renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout == "top_center" else 0.0)
             #pos (5, 50)
 
             vbox:
                 xalign 0.5
-                yalign 0.05
+                yalign (0.05 if renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout in ["top_center", "bottom_center"]\
+                or not renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout == "top_center" else 0.0)
                 #xmaximum 250
                 spacing 5
 
@@ -1427,7 +1433,7 @@ init 5:# Screens persistent._default_replays
 
     transform custom_notify_appear():
         xalign 0.5
-        ypos 130
+        ypos (60 if renpy.get_screen("office_hud", "master") and persistent._quick_menu_layout == "top_center" else 10 if not renpy.get_screen("office_hud", "master") else 0)
 
         yoffset -15.0 yzoom 0.0 zoom 0.7 alpha 0.5
 
