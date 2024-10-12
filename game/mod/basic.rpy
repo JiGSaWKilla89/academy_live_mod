@@ -5,6 +5,7 @@ init 1:#Mod Defaults
     define gui.mod_update_date = "11/10/2024"
     define gui.built_in_cheats = "IWBUWS"
     define gui.mod_update_url = "https://github.com/JiGSaWKilla89/academy_live_mod/releases"
+    define gui.mod_check_url = 'https://raw.githubusercontent.com/JiGSaWKilla89/academy_live_mod/main/version'
     default mod_changelog = read_changelog()
     default mod_updated = "None", gui.jg_mod_version
 
@@ -56,12 +57,11 @@ init -5 python:
     def get_latest_mod():
         global mod_changelog
         # URL of the file containing the dictionary
-        url = 'https://raw.githubusercontent.com/JiGSaWKilla89/academy_live_mod/main/version'
         response = None  # Initialize response to None
 
         # Fetch the file from the URL
         try:
-            response = requests.get(url)
+            response = requests.get(gui.mod_check_url)
 
             # Check if the request was successful
             if response.status_code == 200:
@@ -84,6 +84,8 @@ init -5 python:
                         return "Mod version changed", web_version_game
                     elif gui.mod_update_date != web_date:
                         return "Update date has changed", web_version_game
+                    elif config.version > web_version_game:
+                        return "Game Version Newer Than Mod", config.version
                     else:
                         return "Mod up-to-date", gui.jg_mod_version
                 except json.JSONDecodeError as e:
