@@ -1488,6 +1488,7 @@ init 1000 python:
         return out
 
     def get_rpy_files(ignore_list=ignore_list, end_list=end_list):
+        out = []
         """
         
         This Function Gets all the files mainly '.rpy'
@@ -1503,7 +1504,9 @@ init 1000 python:
                 continue
             if not file in ignore_list:
                 if not file.endswith(tuple(end_list)):
-                    print(file)
+                    out.append(file)
+
+        return out
 
     def get_menu_lines(filename, ignore_lines):
         """
