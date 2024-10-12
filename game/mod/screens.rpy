@@ -419,7 +419,7 @@ init 5:# Screens persistent._default_replays
         text ""
         if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
             text "Latest MOD update available at {a=gui.mod_update_url}JiGSaW Games Studios{/a}" tooltip "Mod Developer"
-        text "If you like what I do {a=https://buymeacoffee.com/jigsawgames}Buy me a beer{/a}" tooltip "Mod Developer BuyMeACoffee Page"
+        text "If you like what I do {a=[gui.donate_mod]}Buy me a beer{/a}" tooltip "Mod Developer BuyMeACoffee Page"
         text "And lastly {a=https://www.patreon.com/passhonQ}passhonQ{/a} for developing [config.name!t]" tooltip "Developer Patreon"
 
     screen confirm_ok(message, ok_action=None):
