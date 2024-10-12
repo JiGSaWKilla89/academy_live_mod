@@ -31,6 +31,7 @@ Toggle Walkthrough Choice Tooltips: {color=FB4301}Shift+T{/color}
 Toggle Cheat Mod: {color=FB4301}END{/color}
 Toggle Music Room: {color=FB4301}M{/color}
 Toggle Notifications Stack/Standard: {color=FB4301}N{/color}
+Adjust Textbox Visibility Keypad {color=FB4301}+/-{/color}
 """
 
     wt_choice_tooltip = """Each Choice marked with either Good Choice/Bad Choice is
