@@ -1,4 +1,4 @@
-I have created a Multi-Mod with walkthrough for Academy Live!
+I have created a Multi-Mod with walkthrough for Academy Live! by passhonQ
 
 The mod works without modifying any of the original files so theoretically it should not affect saves.
 
