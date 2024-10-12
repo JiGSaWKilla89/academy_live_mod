@@ -1,5 +1,88 @@
 init 5:# Screens persistent._default_replays
 
+    screen game_menu(title, scroll=None, yinitial=0.0):
+
+        style_prefix "game_menu"
+
+        if main_menu:
+            add gui.main_menu_background
+        else:
+            add gui.game_menu_background
+
+        frame:
+            style "game_menu_outer_frame"
+
+            hbox:
+
+                ## Reserve space for the navigation section.
+                frame:
+                    style "game_menu_navigation_frame"
+
+                frame:
+                    style "game_menu_content_frame"
+
+                    if scroll == "viewport":
+
+                        viewport:
+                            yinitial yinitial
+                            scrollbars "vertical"
+                            mousewheel True
+                            draggable True
+                            pagekeys True
+
+                            side_yfill True
+
+                            vbox:
+                                transclude
+
+                    elif scroll == "vpgrid":
+
+                        vpgrid:
+                            cols 1
+                            yinitial yinitial
+
+                            scrollbars "vertical"
+                            mousewheel True
+                            draggable True
+                            pagekeys True
+
+                            side_yfill True
+
+                            transclude
+
+                    else:
+
+                        transclude
+
+        use navigation
+
+        textbutton _("Return"):
+            style "return_button"
+            #style "menu_text_button_custom" 
+            hover_sound "audio/sfx/button_h.mp3"
+            activate_sound "audio/sfx/button_a.mp3"
+            text_style "menu_text_button_custom"
+
+            if title == "Walkthrough Colors":
+                action Hide("color_picker_wt", transition=dissolve)
+            else:
+                action Return()
+
+        label title
+
+        if main_menu:
+            key "game_menu":
+                if title == "Walkthrough Colors":
+                    action Hide("color_picker_wt", transition=dissolve)
+                else:
+                    action ShowMenu("main_menu")
+        else:
+            key "game_menu":
+                if title == "Walkthrough Colors":
+                    action Hide("color_picker_wt", transition=dissolve)
+                else:
+                    action Return()
+
     screen navigation():
 
         if renpy.get_screen('main_menu'):
@@ -224,18 +307,19 @@ init 5:# Screens persistent._default_replays
                 tooltip "Click me to view mod features"
     
             if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
-                textbutton ("%s"%mod_updated[1]):
+                textbutton ("%s"%mod_updated[1] if mod_updated[0] != "Game Version Newer Than Mod" else "Check for updated mod"):
                     text_size 25
                     text_outlines [(2, "#0009", 1, 1)]
                     text_align 0.5
                     action OpenURL(gui.mod_update_url)
                     tooltip "Click me to get updated mod"
-                textbutton "Mod Changelog":
-                    text_size 25
-                    text_outlines [(2, "#0009", 1, 1)]
-                    text_align 0.5
-                    action ShowMenu("mod_changelog")
-                    tooltip "View Mod Changelog"
+                if mod_changelog:
+                    textbutton "Mod Changelog":
+                        text_size 25
+                        text_outlines [(2, "#0009", 1, 1)]
+                        text_align 0.5
+                        action ShowMenu("mod_changelog")
+                        tooltip "View Mod Changelog"
 
         if tooltip:
             ## Use With Renpy Version Below 7.5 and 8.0
@@ -277,7 +361,7 @@ init 5:# Screens persistent._default_replays
                 if gui.jg_mod_version == config.version:
                     use mod_options_text
                 else:
-                    text "Mod is outdated {a=https://github.com/JiGSaWKilla89/academy_live_mod/releases}Click Here{/a} to Check for New Version"
+                    text "Mod is outdated {a=gui.mod_update_url}Click Here{/a} to Check for New Version"
                     text "Most mod options will work. Walkthrough will not be synced"
                     text ""
                     use mod_options_text
@@ -331,6 +415,7 @@ init 5:# Screens persistent._default_replays
         text "Notifications"
         text "1. Toggle Notification Stack/Standard using {a=#:None}{color=#f00}(N){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
         text "Credit to {a=https://github.com/RenpyRemix/multi-notify}RenpyRemix{/a} for stackable notifications" xoffset 50 tooltip "RenpyRemix Github"
+        text "Credit to {a=https://github.com/valery-iwanofu/renpy-shader-collection}valery-iwanofu{/a} for color picker" xoffset 50 tooltip "valery-iwanofu Github"
         text ""
         if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
             text "Latest MOD update available at {a=gui.mod_update_url}JiGSaW Games Studios{/a}" tooltip "Mod Developer"
@@ -559,6 +644,11 @@ init 5:# Screens persistent._default_replays
 
                 hbox:
                     box_wrap True
+                    if persistent._walkthrough:
+                        vbox:
+                            style_prefix "check"
+                            label _("Adjust WT Colors\n[jg_s]")
+                            textbutton _("Change") action Show("color_picker_wt", transition=dissolve)
                     vbox:
                         style_prefix "check"
                         label _("Textbox\n[jg_s](T)")
@@ -578,16 +668,15 @@ init 5:# Screens persistent._default_replays
                         textbutton _("{size=-10}[persistent._quick_menu_state!c]{/size}"):
                             action CycleQuickStates(True)
 
+                null height (4 * gui.pref_spacing)
+
+                hbox:
+                    box_wrap True
                     vbox:
                         style_prefix "check"
                         label _("Notifictions\n[jg_s](N)")
                         textbutton _("{size=-10}%s{/size}"%("Notification Stack" if persistent._notify_custom else "Notification Standard")):
                             action ToggleField(persistent, "_notify_custom")
-
-                null height (4 * gui.pref_spacing)
-
-                hbox:
-                    box_wrap True
                     vbox:
                         style_prefix "check"
                         label _("Music Buttons\n[jg_s]{}".format("Solid" if persistent._use_outline_music_buttons else "Outline"))
@@ -669,6 +758,82 @@ init 5:# Screens persistent._default_replays
                             textbutton _("Mute All"):
                                 action Preference("all mute", "toggle")
                                 style "mute_all_button"
+
+    screen color_picker_wt():
+        default activate = False
+        default option = ""
+        default field = ""
+        use game_menu("Walkthrough Colors"):
+            vbox:
+                hbox:#Good Choice
+                    spacing 15
+                    vbox:
+                        textbutton "Good Choice Color":
+                            
+                            action If(option == "_good_choice_color", 
+                                true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
+                                false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_good_choice_color"), SetScreenVariable("field", "_good_choice_color")])
+                            text_color persistent._good_choice_color
+                            text_hover_color adjust_brightness(persistent._good_choice_color, -50)
+                    vbox:
+                        textbutton "Reset":
+                            action SetField(persistent, "_good_choice_color", persistent._default_good_choice_color) 
+                            sensitive persistent._good_choice_color != persistent._default_good_choice_color
+                hbox:#Bad Choice
+                    spacing 15
+                    vbox:
+                        textbutton "Bad Choice Color":
+                            action If(option == "_bad_choice_color", 
+                                true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
+                                false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_bad_choice_color"), SetScreenVariable("field", "_bad_choice_color")])
+                            text_color persistent._bad_choice_color
+                            text_hover_color adjust_brightness(persistent._bad_choice_color, -50)
+                    vbox:
+                        textbutton "Reset":
+                            action SetField(persistent, "_bad_choice_color", persistent._default_bad_choice_color) 
+                            sensitive persistent._bad_choice_color != persistent._default_bad_choice_color
+                hbox:#Recommended Choice
+                    spacing 15
+                    vbox:
+                        textbutton "Recommended Choice Color":
+                            action If(option == "_recommended_choice_color", 
+                                true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")],  
+                                false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_recommended_choice_color"), SetScreenVariable("field", "_recommended_choice_color")])
+                            text_color persistent._recommended_choice_color
+                            text_hover_color adjust_brightness(persistent._recommended_choice_color, -50)
+                    vbox:
+                        textbutton "Reset":
+                            action SetField(persistent, "_recommended_choice_color", persistent._default_recommended_choice_color) 
+                            sensitive persistent._recommended_choice_color != persistent._default_recommended_choice_color
+                hbox:#Best Choice
+                    spacing 15
+                    vbox:
+                        textbutton "Best Choice Color":
+                            action If(option == "_best_choice_color", 
+                                true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
+                                false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_best_choice_color"), SetScreenVariable("field", "_best_choice_color")])
+                            text_color persistent._best_choice_color
+                            text_hover_color adjust_brightness(persistent._best_choice_color, -50)
+                    vbox:
+                        textbutton "Reset":
+                            action SetField(persistent, "_best_choice_color", persistent._default_best_choice_color) 
+                            sensitive persistent._best_choice_color != persistent._default_best_choice_color
+                hbox:#Dealers Choice
+                    spacing 15
+                    vbox:
+                        textbutton "Good Choice Color":
+                            action If(option == "_dealers_choice_color", 
+                                true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
+                                false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_dealers_choice_color"), SetScreenVariable("field", "_dealers_choice_color")])
+                            text_color persistent._dealers_choice_color
+                            text_hover_color adjust_brightness(persistent._dealers_choice_color, -50)
+                    vbox:
+                        textbutton "Reset":
+                            action SetField(persistent, "_dealers_choice_color", persistent._default_dealers_choice_color) 
+                            sensitive persistent._dealers_choice_color != persistent._default_dealers_choice_color
+
+            if activate:
+                use color_picker(FieldSimpleValue(persistent,option), field)
 
     screen quick_menu():
 
