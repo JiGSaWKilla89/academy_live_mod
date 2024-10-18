@@ -1,9 +1,19 @@
-Drop this file in your root of the game directory
+I have created a Multi-Mod with walkthrough for Academy Live! by passhonQ
 
-Example:
-C:\Games\AcademyLive-0.06.2.1_alpha-pc\
+Mod Features:
 
-I have created a Multi-Mod with walkthrough for Academy Live!
+Custom Cheat menu to Edit a few items
+Walkthough with Suggestions.
+Customizable Quick Menu Position
+Custom Music Player with In-Game Overlay using In-Game Music
+In-Game Mod shortcuts button "?" Just above Music Player Overlay
+Toggle between standard Notifications of Stack Notifications
+Fadeable text with options to change to suit you preference
+Custom Savenames
+Hotkeys for choice menus
+Every option can be toggled in preferences
+
+Have tested that if you remove mod saves still work even if a save was made while the mod was installed.
 
 The mod works without modifying any of the original files so theoretically it should not affect saves.
 
