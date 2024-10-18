@@ -1,16 +1,16 @@
 I have created a Multi-Mod with walkthrough for Academy Live! by passhonQ
 
 Mod Features:
+  1. Custom Cheat menu to Edit a few items
+  2. Walkthough with Suggestions.
+  3. Customizable Quick Menu Position
+  4. Custom Music Player with In-Game Overlay using In-Game Music
+  5. In-Game Mod shortcuts button "?" Just above Music Player Overlay
+  6. Toggle between standard Notifications of Stack Notifications
+  7. Fadeable text with options to change to suit you preference
+  8. Custom Savenames
+  9. Hotkeys for choice menus
 
-Custom Cheat menu to Edit a few items
-Walkthough with Suggestions.
-Customizable Quick Menu Position
-Custom Music Player with In-Game Overlay using In-Game Music
-In-Game Mod shortcuts button "?" Just above Music Player Overlay
-Toggle between standard Notifications of Stack Notifications
-Fadeable text with options to change to suit you preference
-Custom Savenames
-Hotkeys for choice menus
 Every option can be toggled in preferences
 
 Have tested that if you remove mod saves still work even if a save was made while the mod was installed.
@@ -25,4 +25,4 @@ Drop the contents into game folder
 
 If the mod is installed correctly it will show on the main menu mod installed
 
-The Current Mod Version is 0.06.2.1_alpha
+The Current Mod Version is **0.06.2.1_alpha**
