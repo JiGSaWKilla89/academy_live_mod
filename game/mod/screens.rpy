@@ -295,7 +295,7 @@ init 5:# Screens persistent._default_replays
         $ mod_version = "Mod Compatible" if gui.jg_mod_version == config.version else "Mod Incompatible"
         vbox:
             text "{b}{u}[jg_1]JiG[jg_3][jg_2]SaW[jg_3]{/u}{/b}\nMOD Installed":
-                size gui.title_text_size-20
+                size gui.mod_info_size
                 outlines [(2, "#0009", 1, 1)]
                 text_align 0.5
 
@@ -383,6 +383,7 @@ init 5:# Screens persistent._default_replays
                         text tooltip
 
     screen mod_options_text():
+        text "Report any issues you find with the mod {a=[gui.mod_issues]}Here{/a}"
         text "Custom Cheat Menu Toggled Using {a=#:None}{color=#f00}(END){/color}{/a} or button in Quick Menu" tooltip "Keyboard END"
         text "1. Manage Academy Options using {a=#:None}{color=#f00}(1){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
         text "2. Manage Lawsuit Options using {a=#:None}{color=#f00}(2){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
@@ -418,9 +419,9 @@ init 5:# Screens persistent._default_replays
         text "Credit to {a=https://github.com/valery-iwanofu/renpy-shader-collection}valery-iwanofu{/a} for color picker" xoffset 50 tooltip "valery-iwanofu Github"
         text ""
         if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
-            text "Latest MOD update available at {a=gui.mod_update_url}JiGSaW Games Studios{/a}" tooltip "Mod Developer"
+            text "Latest MOD update available at {a=[gui.mod_update_url]}[gui.mod_dev]{/a}" tooltip "Mod Developer"
         text "If you like what I do {a=[gui.donate_mod]}Buy me a beer{/a}" tooltip "Mod Developer BuyMeACoffee Page"
-        text "And lastly {a=https://www.patreon.com/passhonQ}passhonQ{/a} for developing [config.name!t]" tooltip "Developer Patreon"
+        text "And lastly {a=[gui.developer_support]}[gui.developer_name]{/a} for developing [config.name!t]" tooltip "Developer Patreon"
 
     screen confirm_ok(message, ok_action=None):
         modal True
@@ -492,7 +493,7 @@ init 5:# Screens persistent._default_replays
         window:
             id "window"
             if persistent._textbox_visible and who:
-                background Transform(Frame("gui/textbox.png"),
+                background Transform(Frame(gui.textbox_location),
                     alpha=persistent._textbox_alpha,
                     xysize=(config.screen_width, gui.textbox_height))
             else:
@@ -656,17 +657,13 @@ init 5:# Screens persistent._default_replays
                             action SetField(persistent, "_textbox_visible", True)
                         textbutton _("Disabled"):
                             action SetField(persistent, "_textbox_visible", False)
-                    vbox:
-                        style_prefix "check"
-                        label _("Quick Menu\n[jg_s](Shift+Q)")
-                        textbutton _("{size=-10}%s{/size}"%QuickPositions()):
-                            action CycleQuickMenu(True)
 
                     vbox:
                         style_prefix "check"
-                        label _("Quick Menu State\n[jg_s](Q)")
-                        textbutton _("{size=-10}[persistent._quick_menu_state!c]{/size}"):
-                            action CycleQuickStates(True)
+                        label _("Quick Menu\n[jg_s]")
+                        textbutton _("{size=-10}Customize{/size}"):
+                            action Show("customize_quick", dissolve)
+                            
 
                 null height (4 * gui.pref_spacing)
 
@@ -674,7 +671,7 @@ init 5:# Screens persistent._default_replays
                     box_wrap True
                     vbox:
                         style_prefix "check"
-                        label _("Notifictions\n[jg_s](N)")
+                        label _("Notifications\n[jg_s](N)")
                         textbutton _("{size=-10}%s{/size}"%("Notification Stack" if persistent._notify_custom else "Notification Standard")):
                             action ToggleField(persistent, "_notify_custom")
                     vbox:
@@ -691,6 +688,13 @@ init 5:# Screens persistent._default_replays
                             action SetField(persistent, "_fast_vol_music", True)
                         textbutton _("Slow"):
                             action SetField(persistent, "_fast_vol_music", False)
+                    vbox:
+                        style_prefix "check"
+                        label _("Support Mod\n[jg_s]{}".format("On" if persistent._support_mod_display else "Off"))
+                        textbutton _("On"):
+                            action SetField(persistent, "_support_mod_display", True)
+                        textbutton _("Off"):
+                            action SetField(persistent, "_support_mod_display", False)
 
                 null height (4 * gui.pref_spacing)
 
@@ -885,29 +889,101 @@ init 5:# Screens persistent._default_replays
                 unhovered ToggleScreenVariable("quick_hover", False),With(dissolve)
 
     screen quick_menu_buttons():
-        textbutton _("Back"):
-            action Rollback()
-        textbutton _("History"):
-            action ShowMenu('history')
-        textbutton _("Skip"):
-            action Skip() alternate Skip(fast=True, confirm=True)
-        textbutton _("Auto"):
-            action Preference("auto-forward", "toggle")
-        textbutton _("Save"):
-            action ShowMenu('save')
-        textbutton _("Hide"):
-            action HideInterface()
-        textbutton _("Q.Save"):
-            action QuickSave()
-        textbutton _("Q.Load"):
-            action QuickLoad()
-        textbutton _("Prefs"):
-            action ShowMenu('preferences')
+        if persistent._quickmenu_rollback:
+            textbutton _("Back"):
+                action Rollback()
+        if persistent._quickmenu_history:
+            textbutton _("History"):
+                action ShowMenu('history')
+        if persistent._quickmenu_skip:
+            textbutton _("Skip"):
+                action Skip() alternate Skip(fast=True, confirm=True)
+        if persistent._quickmenu_auto:
+            textbutton _("Auto"):
+                action Preference("auto-forward", "toggle")
+        if persistent._quickmenu_save:
+            textbutton _("Save"):
+                action ShowMenu('save')
+        if persistent._quickmenu_hide:
+            textbutton _("Hide"):
+                action HideInterface()
+        if persistent._quickmenu_qsave:
+            textbutton _("Q.Save"):
+                action QuickSave()
+        if persistent._quickmenu_qload:
+            textbutton _("Q.Load"):
+                action QuickLoad()
+        if persistent._quickmenu_prefs:
+            textbutton _("Prefs"):
+                action ShowMenu('preferences')
         textbutton _("Cheats"):
             action Show("cheats", transition=dissolve)
-        if _in_replay:
-            textbutton _("End Replay"):
-                action EndReplay(confirm=True)
+        if persistent._quickmenu_end_replay:
+            if _in_replay:
+                textbutton _("End Replay"):
+                    action EndReplay(confirm=True)
+
+    default persistent._quickmenu_rollback = True
+    default persistent._quickmenu_history = True
+    default persistent._quickmenu_skip = True
+    default persistent._quickmenu_auto = True
+    default persistent._quickmenu_save = True
+    default persistent._quickmenu_hide = True
+    default persistent._quickmenu_qsave = True
+    default persistent._quickmenu_qload = True
+    default persistent._quickmenu_prefs = True
+    default persistent._quickmenu_end_replay = True
+    
+    screen customize_quick():
+        modal True
+        add Solid("#000") alpha .9
+        vbox:
+            align (0.5, 0.5)
+            hbox:
+                align (0.5,0.5)
+                box_wrap True
+                vbox:
+                    style_prefix "check"
+                    label _("Quick Menu\n[jg_s](Shift+Q)")
+                    textbutton _("{size=-10}%s{/size}"%QuickPositions()):
+                        action CycleQuickMenu(True)
+
+                vbox:
+                    style_prefix "check"
+                    label _("Quick Menu State\n[jg_s](Q)")
+                    textbutton _("{size=-10}[persistent._quick_menu_state!c]{/size}"):
+                            action CycleQuickStates(True)
+
+            null height (4 * gui.pref_spacing)
+            hbox:
+                style_prefix "quick_toggles"
+                align (0.5,0.5)
+                spacing 80
+                textbutton _("Back"):
+                    action ToggleField(persistent, "_quickmenu_rollback")
+                textbutton _("History"):
+                    action ToggleField(persistent, "_quickmenu_history")
+                textbutton _("Skip"):
+                    action ToggleField(persistent, "_quickmenu_skip")
+                textbutton _("Auto"):
+                    action ToggleField(persistent, "_quickmenu_auto")
+                textbutton _("Save"):
+                    action ToggleField(persistent, "_quickmenu_save")
+                textbutton _("Hide"):
+                    action ToggleField(persistent, "_quickmenu_hide")
+                textbutton _("Q.Save"):
+                    action ToggleField(persistent, "_quickmenu_qsave")
+                textbutton _("Q.Load"):
+                    action ToggleField(persistent, "_quickmenu_qload")
+                textbutton _("Prefs"):
+                    action ToggleField(persistent, "_quickmenu_prefs")
+                textbutton _("End Replay"):
+                    action ToggleField(persistent, "_quickmenu_end_replay")
+
+        textbutton "Close" action Hide("customize_quick", dissolve) align (0.98,0.98)
+    style quick_toggles_button_text:
+        color "#F00"
+        selected_color "#0F0"
 
     screen choice(items):
         $ tooltip = GetTooltip()
@@ -1003,7 +1079,7 @@ init 5:# Screens persistent._default_replays
                     style_prefix "tooltip"
                     hbox:
                         text tooltip
-
+    
     transform choice_appear(t=1):
         alpha 0.0
         easein t alpha 1.0
@@ -1015,7 +1091,7 @@ init 5:# Screens persistent._default_replays
 
         window:
             if persistent._textbox_visible:
-                background Transform(Frame("gui/textbox.png"),
+                background Transform(Frame(gui.textbox_location),
                     alpha=persistent._textbox_alpha,
                     xysize=(config.screen_width, gui.textbox_height))
             else:
@@ -1029,7 +1105,10 @@ init 5:# Screens persistent._default_replays
 
                 text prompt style "input_prompt" at input_appear(.5)
 
-                input id "input" at input_appear(.5) length 50
+                input id "input" at input_appear(.5) length 50:
+                    if gui.use_custom_caret:
+                        caret "custom_caret"
+                        
 
             vbox:
                 style_prefix "input_hint"
@@ -1051,8 +1130,8 @@ init 5:# Screens persistent._default_replays
                 if persistent._custom_savename:
                     if title.lower() == _("save") and not page_name_value.get_page() in ["auto", "quick"]:
                         button:
-                            ypos 10
-                            xpos -30
+                            ypos gui.mod_savename_input_ypos
+                            xpos gui.mod_savename_input_xpos
                             style "page_label"
 
                             key_events True
@@ -1061,9 +1140,11 @@ init 5:# Screens persistent._default_replays
                             input:
                                 id "input"
                                 length 26
-                                size gui.text_size-10
+                                size gui.mod_savename_input_size
                                 prefix _("Enter A Save Name: ")
                                 value savename
+                                if gui.use_custom_caret:
+                                    caret "custom_caret"
                                 style "page_label_text"
 
                 ## This ensures the input will get the enter event before any of the
@@ -1072,7 +1153,7 @@ init 5:# Screens persistent._default_replays
 
                 ## The page name, which can be edited by clicking on a button.
                 button:
-                    ypos -30
+                    ypos gui.mod_save_page_input_ypos
                     style "page_label"
 
                     key_events True
@@ -1082,6 +1163,8 @@ init 5:# Screens persistent._default_replays
                     input:
                         style "page_label_text"
                         value page_name_value
+                        if gui.use_custom_caret:
+                            caret "custom_caret"
 
                 ## The grid of file slots.
                 grid gui.file_slot_cols gui.file_slot_rows:
@@ -1151,8 +1234,8 @@ init 5:# Screens persistent._default_replays
             action the_page.Toggle()
             hbox:
                 
-                xsize 380
-                ysize 50
+                xsize gui.mod_save_goto_page_xsize
+                ysize gui.mod_save_goto_page_ysize
                 input:
                     style "page_label_text"
                     align (0.0, 0.5)
@@ -1160,6 +1243,8 @@ init 5:# Screens persistent._default_replays
                     allow [str(i) for i in range(0,10)]
                     length 3
                     value the_page
+                    if gui.use_custom_caret:
+                        caret "custom_caret"
                 textbutton "Go":
                     text_style "page_label_text"
                     align (1.0,0.5)

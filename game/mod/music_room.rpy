@@ -2334,3 +2334,17 @@ image unlocked_button_insensitive = ConditionSwitch(
     "not persistent._use_outline_music_buttons", " unlocked_outline_insensitive",
     "persistent._use_outline_music_buttons", " unlocked_solid_insensitive",
 )
+
+
+#init python:
+#    class AudioCredits:
+#        CreditList = []
+#        def __init__(self, trackname, creator, filename, link, description):
+#            self.trackname = trackname
+#            self.creator = creator
+#            self.filename = filename
+#            self.link = link
+#            self.description = description
+#            AudioCredits.CreditList.append(self)
+#
+#define  Envy__Tears = AudioCredits("Tears", "Envy", "(No Copyright) Chill Lofi Hiphop - 'Tears' by Envy.mp3", "https://soundcloud.com/nocopyrightlofi/no-copyright-chill-lofi-3", "")
