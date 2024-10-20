@@ -1,4 +1,4 @@
-I have created a Multi-Mod with walkthrough for Academy Live! by passhonQ
+I have created a Multi-Mod with walkthrough for Academy Live! by passhonQ [passhonQ](https://www.patreon.com/passhonQ)
 
 ![screenshot](Screenshots/01_main_menu.jpg)
 
