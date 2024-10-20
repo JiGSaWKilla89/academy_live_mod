@@ -1085,7 +1085,7 @@ init 10 python:
         tracks = []
 
         for i in renpy.list_files():
-            if i.endswith(".mp3"):
+            if i.endswith((".mp3", ".ogg", ".flac", ".opus", ".wav")):
                 tracks.append((i, i.replace("audio/","")))
 
         for audio in AudioCredits.CreditList:

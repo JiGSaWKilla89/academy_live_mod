@@ -63,13 +63,14 @@ style donate_mod_button_text:
 screen support_mod_developer():
     style_prefix "donate_mod"
     default closing = 30
+    default hov = False
 
     button:
-        action Return()
+        action Hide(),Return()
     if closing > 0:
         timer 1 action SetLocalVariable("closing", closing-1) repeat True
     if closing == 0:
-        timer .1 action Return()
+        timer .1 action Hide(),Return()
     text "Window Will Close in: %s"%closing align (0.01, 0.01)
     vbox:
         spacing 200
@@ -79,9 +80,26 @@ screen support_mod_developer():
             text "Current Game Version: [config.version]" size gui.text_size-10 color "#FF0"
             text "If you enjoy using my mod please consider buying me a beer."
         hbox:
-            textbutton "Buy Me a Beer" action OpenURL(gui.donate_mod)
+            textbutton "Buy Me a Beer":
+                action OpenURL(gui.donate_mod)
+                hovered SetLocalVariable("hov", True)
+                unhovered SetLocalVariable("hov", False)
             text " | "
-            textbutton "Return to Game" action Return()
+            textbutton "Return to Game":
+                action Hide(),Return()
+                hovered SetLocalVariable("hov", True)
+                unhovered SetLocalVariable("hov", False)
+    if persistent._support_mod_display:
+        textbutton "Do Not Show Again?":
+            action SetField(persistent, "_support_mod_display", False)
+            hovered SetLocalVariable("hov", True)
+            unhovered SetLocalVariable("hov", False)
+            align (0.98, 0.98) 
+
+    if not hov:
+        key "dismiss" action Hide(),Return()
+        key "toggle_skip" action Hide(),Return()
+        key "skip" action Hide(),Return()
 
 label before_main_menu:
     if persistent._support_mod_display:
