@@ -1,6 +1,6 @@
 I have created a Multi-Mod with walkthrough for Academy Live! by [passhonQ](https://www.patreon.com/passhonQ)
 
-![screenshot](Screenshots/01_main_menu.jpg)
+![screenshot](screenshots/01_main_menu.jpg)
 
 Mod Features:
   1. Custom Cheat menu to Edit a few items
