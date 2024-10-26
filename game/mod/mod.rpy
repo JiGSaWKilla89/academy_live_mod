@@ -17,26 +17,28 @@ init -1500 python early:
         extract_packages(zip_path, zip_directory, zip_final)
 
 init python:
-    shortcuts = """
-{size=75}{color=FB4301}JiG{/color}{color=#000}SaW{/color} Mod Shortcuts{/size}
+    shortcuts = _("""
+        {size=75}{color=FB4301}JiG{/color}{color=#000}SaW{/color} Mod Shortcuts{/size}
 
-Toggle Textbox Shortcut: {color=FB4301}T{/color}
-Toggle Choice Hotkeys: {color=FB4301}C{/color}
-Toggle Custom Savenames: {color=FB4301}Shift+S{/color}
-Toggle Fancy Text: {color=FB4301}Shift+F{/color}
-Toggle Fancy Text Effect: {color=FB4301}E{/color}
-Toggle Fancy Text Always Effect: {color=FB4301}R{/color}
-Toggle Walkthrough: {color=FB4301}W{/color}
-Toggle Walkthrough Choice Tooltips: {color=FB4301}Shift+T{/color}
-Toggle Cheat Mod: {color=FB4301}END{/color}
-Toggle Music Room: {color=FB4301}M{/color}
-Toggle Notifications Stack/Standard: {color=FB4301}N{/color}
-Adjust Textbox Visibility Keypad {color=FB4301}+/-{/color}
-"""
+        Toggle Textbox Shortcut: {color=FB4301}T{/color}
+        Toggle Choice Hotkeys: {color=FB4301}C{/color}
+        Toggle Custom Savenames: {color=FB4301}Shift+S{/color}
+        Toggle Fancy Text: {color=FB4301}Shift+F{/color}
+        Toggle Fancy Text Effect: {color=FB4301}E{/color}
+        Toggle Fancy Text Always Effect: {color=FB4301}R{/color}
+        Toggle Walkthrough: {color=FB4301}W{/color}
+        Toggle Walkthrough Choice Tooltips: {color=FB4301}Shift+T{/color}
+        Toggle Cheat Mod: {color=FB4301}END{/color}
+        Toggle Music Room: {color=FB4301}M{/color}
+        Toggle Notifications Stack/Standard: {color=FB4301}N{/color}
+        Toggle Quick Menu Visibility: {color=FB4301}Q{/color}
+        Toggle Quick Menu Position: {color=FB4301}Shift+Q{/color}
+        Adjust Textbox Visibility Keypad {color=FB4301}+/-{/color}
+        """)
 
-    wt_choice_tooltip = """Each Choice marked with either Good Choice/Bad Choice is
-just a recommendation from me.
-You play the game the way you want."""
+    wt_choice_tooltip = _("""Each Choice marked with either Good Choice/Bad Choice is
+        just a recommendation from me.
+        You play the game the way you want.""")
 
 init -5 python:
     
@@ -218,6 +220,9 @@ init -5 python:
         'spanked', 'time', 'toggle_notify_type', 'zip_directory', 'zip_final', 'zip_path', 'zipfile'])
 
     bypass_list = sorted(list(set([i.strip() for i in bypass_list])))
+    
+    def fix_multiline(string, count=8):
+        return string.replace(" "*count,"")        
 
     def adjust_brightness(hex_color, levels):
         def clamp(value):
@@ -376,7 +381,7 @@ init -5 python:
             # Restart interaction if needed
             renpy.restart_interaction()
             if not main_menu and not self.bypass:
-                renpy.notify("Changed Effect to: %s"%persistent._slow_effect_title)
+                renpy.notify(_("Changed Effect to: %s"%persistent._slow_effect_title))
 
             #return persistent._slow_effect_title
 
@@ -416,7 +421,7 @@ init -5 python:
             # Restart interaction if needed
             renpy.restart_interaction()
             if not main_menu and not self.bypass:
-                renpy.notify("Changed Always Effect to: %s"%persistent._always_effect_title)
+                renpy.notify(_("Changed Always Effect to: %s"%persistent._always_effect_title))
 
             #return persistent._always_effect_title
 
@@ -582,6 +587,8 @@ init -5 python:
             return []
 
     def toggle_callstack():
+        if not jgs_develop:
+            return
         if main_menu:
             return
         renpy.run(ToggleScreen("callstack", transition=dissolve))
@@ -623,19 +630,19 @@ init -5 python:
         return f"{join_param}".join(fix)
 
     def _adjust_dialogue(direction="+"):
-        txt = "Textbox Visibility"
+        txt = _("Textbox Visibility")
         if direction == "+":
             if persistent._textbox_alpha <= 0.99 :
                 persistent._textbox_alpha += 0.01
             else:
                 persistent._textbox_alpha = 1.0
-                txt = "Textbox Is Completely Visible"
+                txt = _("Textbox Is Completely Visible")
         elif direction == "-":
             if persistent._textbox_alpha > 0.01:
                 persistent._textbox_alpha -= 0.01
             else:
                 persistent._textbox_alpha = 0.0
-                txt = "Textbox Is Completely Invisible"
+                txt = _("Textbox Is Completely Invisible")
         renpy.notify("%s: %s"%(txt, TextBoxAlpha()))
     
     def add_notify_message(msg=None):
@@ -678,11 +685,11 @@ init -5 python:
         if persistent._notify_custom:
             persistent._notify_custom = False
             config.notify = renpy.display_notify
-            renpy.notify("Custom Notifications Off")
+            renpy.notify(_("Custom Notifications Off"))
         else:
             persistent._notify_custom = True
             config.notify = add_notify_message
-            renpy.notify("Custom Notifications On")
+            renpy.notify(_("Custom Notifications On"))
         
         renpy.restart_interaction()
 
@@ -753,7 +760,18 @@ init -5 python:
 
     config.hyperlink_handlers["#"] = NoneHandler
 
+    def set_initial_volumes(mixer="music", v=.5):
+        try:
+            _preferences.set_mixer(mixer, v)
+        except:
+            _preferences.set_volume(mixer, v)
+
 label splashscreen:
+    if not persistent._jgs_default_volumes:
+        $ persistent._jgs_default_volumes = True
+        $ set_initial_volumes("music")
+        $ set_initial_volumes("sfx")
+        $ set_initial_volumes("voice")
     scene black
     with Pause(1)
 
@@ -768,7 +786,7 @@ label splashscreen:
     return
 
 init 1:# Defaults
-    image splashText = Text(shortcuts.strip(), style="splash")
+    image splashText = Text(fix_multiline(shortcuts).strip(), style="splash")
     default preferences.text_cps = 120
     default persistent._unlocked_gallery = False
     default persistent._show_empty_gallery = False
@@ -789,6 +807,8 @@ init 1:# Defaults
 
 ## Cheats ######################################################################################################################
 init python:# Init Cheats
+    if renpy.version_tuple[:-1] >= (7,5,0) or renpy.version_tuple[:-1] >= (8,0,0):
+        preferences.audio_when_minimized = False
     def toggle_cheats():
         if main_menu:
             return

@@ -65,6 +65,8 @@ init 5:# Screens persistent._default_replays
 
             if title == "Walkthrough Colors":
                 action Hide("color_picker_wt", transition=dissolve)
+            elif title == _("Music Player Settings"):
+                action Hide("color_picker_mr", transition=dissolve)
             else:
                 action Return()
 
@@ -72,18 +74,23 @@ init 5:# Screens persistent._default_replays
 
         if main_menu:
             key "game_menu":
-                if title == "Walkthrough Colors":
+                if title == _("Walkthrough Colors"):
                     action Hide("color_picker_wt", transition=dissolve)
+                elif title == _("Music Player Settings"):
+                    action Hide("color_picker_mr", transition=dissolve)
                 else:
                     action ShowMenu("main_menu")
         else:
             key "game_menu":
-                if title == "Walkthrough Colors":
+                if title == _("Walkthrough Colors"):
                     action Hide("color_picker_wt", transition=dissolve)
+                elif title == _("Music Player Settings"):
+                    action Hide("color_picker_mr", transition=dissolve)
                 else:
                     action Return()
 
     screen navigation():
+        $ screen_vis = renpy.get_screen("color_picker_mr") or renpy.get_screen("color_picker_wt")#If(renpy.get_screen("color_picker_mr"),Hide("color_picker_mr",transition=dissolve))
 
         if renpy.get_screen('main_menu'):
 
@@ -97,14 +104,14 @@ init 5:# Screens persistent._default_replays
                     text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
-                    action Start()
+                    action Start(),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
                 textbutton _("{size=96}Load{/size}"):
                     style "menu_text_button_custom"
                     text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5               
-                    action ShowMenu("load")
+                    action ShowMenu("load"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
                 
                 textbutton _("{size=64}Replays{/size}"):
                     style "menu_text_button_custom"
@@ -112,14 +119,14 @@ init 5:# Screens persistent._default_replays
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
                     #action NullAction()
-                    action ShowMenu("replays" if not persistent._default_replays else "replays_custom")
+                    action ShowMenu("replays" if not persistent._default_replays else "replays_custom"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
                 textbutton _("{size=40}Preferences{/size}"):
                     style "menu_text_button_custom"
                     text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
-                    action ShowMenu("preferences")
+                    action ShowMenu("preferences"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
                 textbutton _("{size=40}Music{/size}"):
                     style "menu_text_button_custom"
@@ -127,14 +134,14 @@ init 5:# Screens persistent._default_replays
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
                     #action NullAction()
-                    action ShowMenu("musicroom")
+                    action ShowMenu("musicroom"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
                 textbutton _("{size=40}About{/size}"):
                     style "menu_text_button_custom"
                     text_style "menu_text_button_custom"
                     text_outlines [ (2, "#00000080", 0, 1) ]
                     xalign 0.5
-                    action ShowMenu("about")
+                    action ShowMenu("about"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
                 if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
@@ -144,7 +151,7 @@ init 5:# Screens persistent._default_replays
                         text_style "menu_text_button_custom"
                         text_outlines [ (2, "#00000080", 0, 1) ]
                         xalign 0.5
-                        action ShowMenu("help")
+                        action ShowMenu("help"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
                 if renpy.variant("pc"):
 
@@ -155,7 +162,7 @@ init 5:# Screens persistent._default_replays
                         text_style "menu_text_button_custom"
                         text_outlines [ (2, "#00000080", 0, 1) ]
                         xalign 0.5
-                        action Quit(confirm=not main_menu)
+                        action Quit(confirm=not main_menu),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)])
 
         else:
             vbox:
@@ -172,39 +179,39 @@ init 5:# Screens persistent._default_replays
 
                 else:
 
-                    textbutton _("History") action ShowMenu("history") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("History") action ShowMenu("history"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
-                    textbutton _("Save") action ShowMenu("save") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("Save") action ShowMenu("save"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
-                textbutton _("Load") action ShowMenu("load") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                textbutton _("Load") action ShowMenu("load"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
                 if main_menu:
                     
-                    textbutton _("Replays") action ShowMenu("replays" if not persistent._default_replays else "replays_custom") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("Replays") action ShowMenu("replays" if not persistent._default_replays else "replays_custom"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
-                textbutton _("Preferences") action ShowMenu("preferences") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                textbutton _("Preferences") action ShowMenu("preferences"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
-                textbutton _("Music") action ShowMenu("musicroom") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                textbutton _("Music") action ShowMenu("musicroom"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
                 if _in_replay:
 
-                    textbutton _("End Replay") action EndReplay(confirm=True) style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("End Replay") action EndReplay(confirm=True),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
                 elif not main_menu:
 
-                    textbutton _("Main Menu") action MainMenu() style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("Main Menu") action MainMenu(),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
-                textbutton _("About") action ShowMenu("about") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                textbutton _("About") action ShowMenu("about"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
                 if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
                     ## Help isn't necessary or relevant to mobile devices.
-                    textbutton _("Help") action ShowMenu("help") style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("Help") action ShowMenu("help"),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
 
                 if renpy.variant("pc"):
 
                     ## The quit button is banned on iOS and unnecessary on Android and
                     ## Web.
-                    textbutton _("Quit") action Quit(confirm=not main_menu) style "menu_text_button_custom" text_style "menu_text_button_custom"
+                    textbutton _("Quit") action Quit(confirm=not main_menu),If(screen_vis,[Hide("color_picker_mr",transition=dissolve),Hide("color_picker_wt",transition=dissolve)]) style "menu_text_button_custom" text_style "menu_text_button_custom"
     
     screen shortcuts():
         style_prefix "shortcuts"
@@ -227,7 +234,7 @@ init 5:# Screens persistent._default_replays
                 action SetLocalVariable("shown", False),With(dissolve)
             key "game_menu" action SetLocalVariable("shown", False),With(dissolve)
 
-            text "Click anywhere to close or the ? button" align (0.98, 0.98)
+            text _("Click anywhere to close or the ? button") align (0.98, 0.98)
 
         if show_button:
             textbutton "?" action ToggleLocalVariable("shown"),With(dissolve) align (1.0, 0.05)
@@ -292,19 +299,19 @@ init 5:# Screens persistent._default_replays
                 hover "itch_hover"
                 style "menu_text_button_custom"
                 action OpenURL("https://passhonq.itch.io/academy-live")
-        $ mod_version = "Mod Compatible" if gui.jg_mod_version == config.version else "Mod Incompatible"
         vbox:
-            text "{b}{u}[jg_1]JiG[jg_3][jg_2]SaW[jg_3]{/u}{/b}\nMOD Installed":
+            text _("{b}{u}[jg_1]JiG[jg_3][jg_2]SaW[jg_3]{/u}{/b}\nMOD Installed"):
                 size gui.mod_info_size
                 outlines [(2, "#0009", 1, 1)]
                 text_align 0.5
+                font "mod/CM-Font.otf"
 
-            textbutton "[mod_version!i]":
+            textbutton _("Mod Features"):
                 text_size 25
                 text_outlines [(2, "#0009", 1, 1)]
                 text_align 0.5
                 action ShowMenu("mod_features")
-                tooltip "Click me to view mod features"
+                tooltip _("Click me to view mod features")
     
             if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
                 textbutton ("%s"%mod_updated[1] if mod_updated[0] != "Game Version Newer Than Mod" else "Check for updated mod"):
@@ -312,14 +319,14 @@ init 5:# Screens persistent._default_replays
                     text_outlines [(2, "#0009", 1, 1)]
                     text_align 0.5
                     action OpenURL(gui.mod_update_url)
-                    tooltip "Click me to get updated mod"
+                    tooltip _("Click me to get updated mod")
                 if mod_changelog:
-                    textbutton "Mod Changelog":
+                    textbutton _("Mod Changelog"):
                         text_size 25
                         text_outlines [(2, "#0009", 1, 1)]
                         text_align 0.5
                         action ShowMenu("mod_changelog")
-                        tooltip "View Mod Changelog"
+                        tooltip _("View Mod Changelog")
 
         if tooltip:
             ## Use With Renpy Version Below 7.5 and 8.0
@@ -341,7 +348,7 @@ init 5:# Screens persistent._default_replays
         $ tooltip = GetTooltip()
         tag menu
 
-        use game_menu("Mod Changelog", scroll="viewport"):
+        use game_menu(_("Mod Changelog"), scroll="viewport"):
             vbox:
                 spacing 10
                 for i in mod_changelog:
@@ -355,15 +362,15 @@ init 5:# Screens persistent._default_replays
         $ tooltip = GetTooltip()
         tag menu
 
-        use game_menu("Mod Features", scroll="viewport"):
+        use game_menu(_("Mod Features"), scroll="viewport"):
             vbox:
                 spacing 10
                 if gui.jg_mod_version == config.version:
                     use mod_options_text
                 else:
-                    text "Mod is outdated {a=gui.mod_update_url}Click Here{/a} to Check for New Version"
-                    text "Most mod options will work. Walkthrough will not be synced"
-                    text ""
+                    text _("Mod is outdated {a=gui.mod_update_url}Click Here{/a} to Check for New Version")
+                    text _("Most mod options will work. Walkthrough will not be synced")
+                    null height 20
                     use mod_options_text
                     
         if tooltip:
@@ -383,45 +390,47 @@ init 5:# Screens persistent._default_replays
                         text tooltip
 
     screen mod_options_text():
-        text "Report any issues you find with the mod {a=[gui.mod_issues]}Here{/a}"
-        text "Custom Cheat Menu Toggled Using {a=#:None}{color=#f00}(END){/color}{/a} or button in Quick Menu" tooltip "Keyboard END"
-        text "1. Manage Academy Options using {a=#:None}{color=#f00}(1){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-        text "2. Manage Lawsuit Options using {a=#:None}{color=#f00}(2){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-        text "3. Modify Student Traits using {a=#:None}{color=#f00}(3){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-        text "4. Modify Teacher Traits using {a=#:None}{color=#f00}(4){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-        text "5. Modify Teacher Traits using {a=#:None}{color=#f00}(5){/color}{/a} on the number row or keypad" xoffset 50 tooltip "Only works on the cheats screen"
-        text "Walkthrough"
-        text "1. Walkthrough Suggestions Toggled using {a=#:None}{color=#f00}(W){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "2. Walkthrough Tooltips Toggled using {a=#:None}{color=#f00}(Shift+T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "Music Player"
-        text "1. Music Player can be Toggled ingame using {a=#:None}{color=#f00}(M){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "2. Hovering over Volume Slider allows mousewheel up/down control" xoffset 50 
-        text "Override Replays"
-        text "1. View Empty Replays {a=#:None}{color=#f00}(E){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
-        text "2. View Locked Replays {a=#:None}{color=#f00}(L){/color}{/a} or button in Replays" xoffset 50 tooltip "This works only on the standard replays screen"
-        text "Quick Menu Options"
-        text "1. Quick Menu Visibility Options Toggled using {a=#:None}{color=#f00}(Q){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "2. Quick Menu Position Options Toggled Using {a=#:None}{color=#f00}(Shift+Q){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "Say Dialogue"
-        text "1. Textbox Visibility Toggled using {a=#:None}{color=#f00}(T){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "2. Slider in Preferences or NUM {a=#:None}{color=#f00}(+/-){/color}{/a}" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "3. Fancy Text Toggled using {a=#:None}{color=#f00}(F){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "4. Text Effect Toggled using {a=#:None}{color=#f00}(E){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "5. Text Always Effect Toggled using {a=#:None}{color=#f00}(R){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "Credit to {a=https://github.com/yukinogatari/Ren-Py-FancyText}yukinogatari{/a} for the original Fancytext Module Modified by\n[gui.mod_dev] for newer Ren'Py Compatibility" xoffset 50 tooltip "yukinogatari Github"
-        text "Custom Save Names"
-        text "1. Toggle Custom Savenames using {a=#:None}{color=#f00}(Shift+S){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "Hotkeys"
-        text "1. Toggle Choice Hotkeys using {a=#:None}{color=#f00}(C){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "Notifications"
-        text "1. Toggle Notification Stack/Standard using {a=#:None}{color=#f00}(N){/color}{/a} or in preferences menu" xoffset 50 tooltip "This can be toggled in the main menu or in the game"
-        text "Credit to {a=https://github.com/RenpyRemix/multi-notify}RenpyRemix{/a} for stackable notifications" xoffset 50 tooltip "RenpyRemix Github"
-        text "Credit to {a=https://github.com/valery-iwanofu/renpy-shader-collection}valery-iwanofu{/a} for color picker" xoffset 50 tooltip "valery-iwanofu Github"
-        text ""
+        text _("Report any issues you find with the mod {a=[gui.mod_issues]}Here{/a}") tooltip _("Github issues tracker")
+        text _("Custom Cheat Menu Toggled Using {a=#:None}{color=#f00}(END){/color}{/a} or button in Quick Menu") tooltip "Keyboard END"
+        text _("1. Manage Academy Options using {a=#:None}{color=#f00}(1){/color}{/a} on the number row or keypad") xoffset 50 tooltip _("Only works on the cheats screen")
+        text _("2. Manage Lawsuit Options using {a=#:None}{color=#f00}(2){/color}{/a} on the number row or keypad") xoffset 50 tooltip _("Only works on the cheats screen")
+        text _("3. Modify Student Traits using {a=#:None}{color=#f00}(3){/color}{/a} on the number row or keypad") xoffset 50 tooltip _("Only works on the cheats screen")
+        text _("4. Modify Teacher Traits using {a=#:None}{color=#f00}(4){/color}{/a} on the number row or keypad") xoffset 50 tooltip _("Only works on the cheats screen")
+        text _("5. Modify Teacher Traits using {a=#:None}{color=#f00}(5){/color}{/a} on the number row or keypad") xoffset 50 tooltip _("Only works on the cheats screen")
+        text _("Walkthrough")
+        text _("1. Walkthrough Suggestions Toggled using {a=#:None}{color=#f00}(W){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("2. Walkthrough Tooltips Toggled using {a=#:None}{color=#f00}(Shift+T){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("Music Player")
+        text _("1. Music Player can be Toggled ingame using {a=#:None}{color=#f00}(M){/color}{/a}") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("2. Hovering over Volume Slider allows mousewheel up/down control") xoffset 50 
+        text _("Override Replays")
+        text _("1. View Empty Replays {a=#:None}{color=#f00}(E){/color}{/a} or button in Replays") xoffset 50 tooltip _("This works only on the standard replays screen")
+        text _("2. View Locked Replays {a=#:None}{color=#f00}(L){/color}{/a} or button in Replays") xoffset 50 tooltip _("This works only on the standard replays screen")
+        text _("Quick Menu Options")
+        text _("1. Quick Menu Visibility Options Toggled using {a=#:None}{color=#f00}(Q){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("2. Quick Menu Position Options Toggled Using {a=#:None}{color=#f00}(Shift+Q){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("Say Dialogue")
+        text _("1. Textbox Visibility Toggled using {a=#:None}{color=#f00}(T){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("2. Slider in Preferences or NUM {a=#:None}{color=#f00}(+/-){/color}{/a}") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("3. Fancy Text Toggled using {a=#:None}{color=#f00}(F){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("4. Text Effect Toggled using {a=#:None}{color=#f00}(E){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("5. Text Always Effect Toggled using {a=#:None}{color=#f00}(R){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("Credit to {a=https://github.com/yukinogatari/Ren-Py-FancyText}yukinogatari{/a} for the original Fancytext Module Modified by\n[gui.mod_dev] for newer Ren'Py Compatibility") xoffset 50 tooltip _("yukinogatari Github")
+        text _("Custom Save Names")
+        text _("1. Toggle Custom Savenames using {a=#:None}{color=#f00}(Shift+S){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("Hotkeys")
+        text _("1. Toggle Choice Hotkeys using {a=#:None}{color=#f00}(C){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("2. Hotkeys on Choice Menus using {a=#:None}{color=#f00}(1-9 or NUM 1-9){/color}{/a}") xoffset 50 tooltip _("1-9 or NUM 1-9 on choice menus")
+        text _("3. Hotkeys on Confirm using {a=#:None}{color=#f00}(Y/N){/color}{/a}") xoffset 50 tooltip _("Y/N on confirmation screens")
+        text _("Notifications")
+        text _("1. Toggle Notification Stack/Standard using {a=#:None}{color=#f00}(N){/color}{/a} or in preferences menu") xoffset 50 tooltip _("This can be toggled in the main menu or in the game")
+        text _("Credit to {a=https://github.com/RenpyRemix/multi-notify}RenpyRemix{/a} for stackable notifications") xoffset 50 tooltip _("RenpyRemix Github")
+        text _("Credit to {a=https://github.com/valery-iwanofu/renpy-shader-collection}valery-iwanofu{/a} for color picker") xoffset 50 tooltip _("valery-iwanofu Github")
+        null height 20
         if mod_updated[0] not in ["Mod up-to-date", "JSON Error", "Could Not Connect to Host", "HTTP Error", "Timeout", "Request Error", "None"]:
-            text "Latest MOD update available at {a=[gui.mod_update_url]}[gui.mod_dev]{/a}" tooltip "Mod Developer"
-        text "If you like what I do {a=[gui.donate_mod]}Buy me a beer{/a}" tooltip "Mod Developer BuyMeACoffee Page"
-        text "And lastly {a=[gui.developer_support]}[gui.developer_name]{/a} for developing [config.name!t]" tooltip "Developer Patreon"
+            text _("Latest MOD update available at {a=[gui.mod_update_url]}[gui.mod_dev]{/a}") tooltip _("Mod Developer")
+        text _("If you like what I do consider {a=[gui.donate_mod]}Buying me a beer{/a}") tooltip _("Mod Developer BuyMeACoffee Page")
+        text _("And lastly {a=[gui.developer_support]}[gui.developer_name]{/a} for developing [config.name!t]") tooltip _("Developer Patreon")
 
     screen confirm_ok(message, ok_action=None):
         modal True
@@ -575,9 +584,9 @@ init 5:# Screens persistent._default_replays
 
                 null height (4 * gui.pref_spacing)
 
-                hbox:
-                    box_wrap True
-                    if persistent._fancy_text:
+                if persistent._fancy_text:
+                    hbox:
+                        box_wrap True
                         vbox:
                             style_prefix "check"
                             label _("Effect\n[jg_s](E)")
@@ -605,18 +614,35 @@ init 5:# Screens persistent._default_replays
                             textbutton _("Default"):
                                 action SetField(persistent, "_effect_delay", 0.2)
 
-                null height (4 * gui.pref_spacing)
+                    null height (4 * gui.pref_spacing)
 
-                hbox:
+                hbox:#QM
                     box_wrap True
-
                     vbox:
                         style_prefix "check"
-                        label _("Choice Hotkeys\n[jg_s](C)")
-                        textbutton _("Enabled"):
-                            action SetField(persistent, "_choice_hotkeys", True)
-                        textbutton _("Disabled"):
-                            action SetField(persistent, "_choice_hotkeys", False)
+                        label _("Quick Menu\n[jg_s]Position (Shift+Q)")
+                        textbutton _("{size=-10}%s{/size}"%QuickPositions()):
+                            action CycleQuickMenu(True)
+                    vbox:
+                        style_prefix "check"
+                        label _("Quick Menu\n[jg_s]State (Q)")
+                        textbutton _("{size=-10}[persistent._quick_menu_state!c]{/size}"):
+                                action CycleQuickStates(True)
+                    vbox:
+                        style_prefix "check"
+                        label _("Quick Menu\n[jg_s]")
+                        textbutton _("{size=-10}Customize{/size}"):
+                            action Show("customize_quick", dissolve)
+                    vbox:
+                        style_prefix "check"
+                        label _("Notifications\n[jg_s](N)")
+                        textbutton _("{size=-10}%s{/size}"%("Notification Stack" if persistent._notify_custom else "Notification Standard")):
+                            action ToggleField(persistent, "_notify_custom")
+
+                null height (4 * gui.pref_spacing)
+
+                hbox:#WT
+                    box_wrap True
                     vbox:
                         style_prefix "check"
                         label _("Walkthrough\n[jg_s](W)")
@@ -632,24 +658,23 @@ init 5:# Screens persistent._default_replays
                                 action SetField(persistent, "_choice_tooltips", True)
                             textbutton _("Disabled"):
                                 action SetField(persistent, "_choice_tooltips", False)
+                        vbox:
+                            style_prefix "check"
+                            label _("Adjust WT Colors\n[jg_s]")
+                            textbutton _("Change") action Show("color_picker_wt", transition=dissolve)
 
                     vbox:
                         style_prefix "check"
-                        label _("Custom Replays\n[jg_s]")
+                        label _("Choice Hotkeys\n[jg_s](C)")
                         textbutton _("Enabled"):
-                            action SetField(persistent, "_default_replays", True)
+                            action SetField(persistent, "_choice_hotkeys", True)
                         textbutton _("Disabled"):
-                            action SetField(persistent, "_default_replays", False)
+                            action SetField(persistent, "_choice_hotkeys", False)
 
                 null height (4 * gui.pref_spacing)
 
                 hbox:
                     box_wrap True
-                    if persistent._walkthrough:
-                        vbox:
-                            style_prefix "check"
-                            label _("Adjust WT Colors\n[jg_s]")
-                            textbutton _("Change") action Show("color_picker_wt", transition=dissolve)
                     vbox:
                         style_prefix "check"
                         label _("Textbox\n[jg_s](T)")
@@ -657,37 +682,13 @@ init 5:# Screens persistent._default_replays
                             action SetField(persistent, "_textbox_visible", True)
                         textbutton _("Disabled"):
                             action SetField(persistent, "_textbox_visible", False)
-
                     vbox:
                         style_prefix "check"
-                        label _("Quick Menu\n[jg_s]")
-                        textbutton _("{size=-10}Customize{/size}"):
-                            action Show("customize_quick", dissolve)
-                            
-
-                null height (4 * gui.pref_spacing)
-
-                hbox:
-                    box_wrap True
-                    vbox:
-                        style_prefix "check"
-                        label _("Notifications\n[jg_s](N)")
-                        textbutton _("{size=-10}%s{/size}"%("Notification Stack" if persistent._notify_custom else "Notification Standard")):
-                            action ToggleField(persistent, "_notify_custom")
-                    vbox:
-                        style_prefix "check"
-                        label _("Music Buttons\n[jg_s]{}".format("Solid" if persistent._use_outline_music_buttons else "Outline"))
-                        textbutton _("Solid"):
-                            action SetField(persistent, "_use_outline_music_buttons", True)
-                        textbutton _("Outline"):
-                            action SetField(persistent, "_use_outline_music_buttons", False)
-                    vbox:
-                        style_prefix "check"
-                        label _("Music Volume\n[jg_s]{}".format("Fast" if persistent._fast_vol_music else "Slow"))
-                        textbutton _("Fast"):
-                            action SetField(persistent, "_fast_vol_music", True)
-                        textbutton _("Slow"):
-                            action SetField(persistent, "_fast_vol_music", False)
+                        label _("Music Overlay\n[jg_s]{}".format("On" if persistent._music_overlay else "Off"))
+                        textbutton _("On"):
+                            action SetField(persistent, "_music_overlay", True)
+                        textbutton _("Off"):
+                            action SetField(persistent, "_music_overlay", False)
                     vbox:
                         style_prefix "check"
                         label _("Support Mod\n[jg_s]{}".format("On" if persistent._support_mod_display else "Off"))
@@ -695,6 +696,13 @@ init 5:# Screens persistent._default_replays
                             action SetField(persistent, "_support_mod_display", True)
                         textbutton _("Off"):
                             action SetField(persistent, "_support_mod_display", False)
+                    vbox:
+                        style_prefix "check"
+                        label _("Custom Replays\n[jg_s]")
+                        textbutton _("Enabled"):
+                            action SetField(persistent, "_default_replays", True)
+                        textbutton _("Disabled"):
+                            action SetField(persistent, "_default_replays", False)
 
                 null height (4 * gui.pref_spacing)
 
@@ -767,12 +775,12 @@ init 5:# Screens persistent._default_replays
         default activate = False
         default option = ""
         default field = ""
-        use game_menu("Walkthrough Colors"):
+        use game_menu(_("Walkthrough Colors")):
             vbox:
                 hbox:#Good Choice
                     spacing 15
                     vbox:
-                        textbutton "Good Choice Color":
+                        textbutton _("Good Choice Color"):
                             
                             action If(option == "_good_choice_color", 
                                 true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
@@ -780,59 +788,59 @@ init 5:# Screens persistent._default_replays
                             text_color persistent._good_choice_color
                             text_hover_color adjust_brightness(persistent._good_choice_color, -50)
                     vbox:
-                        textbutton "Reset":
+                        textbutton _("Reset"):
                             action SetField(persistent, "_good_choice_color", persistent._default_good_choice_color) 
                             sensitive persistent._good_choice_color != persistent._default_good_choice_color
                 hbox:#Bad Choice
                     spacing 15
                     vbox:
-                        textbutton "Bad Choice Color":
+                        textbutton _("Bad Choice Color"):
                             action If(option == "_bad_choice_color", 
                                 true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
                                 false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_bad_choice_color"), SetScreenVariable("field", "_bad_choice_color")])
                             text_color persistent._bad_choice_color
                             text_hover_color adjust_brightness(persistent._bad_choice_color, -50)
                     vbox:
-                        textbutton "Reset":
+                        textbutton _("Reset"):
                             action SetField(persistent, "_bad_choice_color", persistent._default_bad_choice_color) 
                             sensitive persistent._bad_choice_color != persistent._default_bad_choice_color
                 hbox:#Recommended Choice
                     spacing 15
                     vbox:
-                        textbutton "Recommended Choice Color":
+                        textbutton _("Recommended Choice Color"):
                             action If(option == "_recommended_choice_color", 
                                 true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")],  
                                 false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_recommended_choice_color"), SetScreenVariable("field", "_recommended_choice_color")])
                             text_color persistent._recommended_choice_color
                             text_hover_color adjust_brightness(persistent._recommended_choice_color, -50)
                     vbox:
-                        textbutton "Reset":
+                        textbutton _("Reset"):
                             action SetField(persistent, "_recommended_choice_color", persistent._default_recommended_choice_color) 
                             sensitive persistent._recommended_choice_color != persistent._default_recommended_choice_color
                 hbox:#Best Choice
                     spacing 15
                     vbox:
-                        textbutton "Best Choice Color":
+                        textbutton _("Best Choice Color"):
                             action If(option == "_best_choice_color", 
                                 true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
                                 false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_best_choice_color"), SetScreenVariable("field", "_best_choice_color")])
                             text_color persistent._best_choice_color
                             text_hover_color adjust_brightness(persistent._best_choice_color, -50)
                     vbox:
-                        textbutton "Reset":
+                        textbutton _("Reset"):
                             action SetField(persistent, "_best_choice_color", persistent._default_best_choice_color) 
                             sensitive persistent._best_choice_color != persistent._default_best_choice_color
                 hbox:#Dealers Choice
                     spacing 15
                     vbox:
-                        textbutton "Good Choice Color":
+                        textbutton _("Dealers Choice Color"):
                             action If(option == "_dealers_choice_color", 
                                 true=[SetScreenVariable("activate", False), SetScreenVariable("option", ""), SetScreenVariable("field", "")], 
                                 false=[SetScreenVariable("activate", True), SetScreenVariable("option", "_dealers_choice_color"), SetScreenVariable("field", "_dealers_choice_color")])
                             text_color persistent._dealers_choice_color
                             text_hover_color adjust_brightness(persistent._dealers_choice_color, -50)
                     vbox:
-                        textbutton "Reset":
+                        textbutton _("Reset"):
                             action SetField(persistent, "_dealers_choice_color", persistent._default_dealers_choice_color) 
                             sensitive persistent._dealers_choice_color != persistent._default_dealers_choice_color
 
@@ -940,22 +948,6 @@ init 5:# Screens persistent._default_replays
         vbox:
             align (0.5, 0.5)
             hbox:
-                align (0.5,0.5)
-                box_wrap True
-                vbox:
-                    style_prefix "check"
-                    label _("Quick Menu\n[jg_s](Shift+Q)")
-                    textbutton _("{size=-10}%s{/size}"%QuickPositions()):
-                        action CycleQuickMenu(True)
-
-                vbox:
-                    style_prefix "check"
-                    label _("Quick Menu State\n[jg_s](Q)")
-                    textbutton _("{size=-10}[persistent._quick_menu_state!c]{/size}"):
-                            action CycleQuickStates(True)
-
-            null height (4 * gui.pref_spacing)
-            hbox:
                 style_prefix "quick_toggles"
                 align (0.5,0.5)
                 spacing 80
@@ -981,9 +973,12 @@ init 5:# Screens persistent._default_replays
                     action ToggleField(persistent, "_quickmenu_end_replay")
 
         textbutton "Close" action Hide("customize_quick", dissolve) align (0.98,0.98)
+    
     style quick_toggles_button_text:
         color "#F00"
         selected_color "#0F0"
+        hover_color gui.hover_color
+        selected_hover_color gui.hover_color
 
     screen choice(items):
         $ tooltip = GetTooltip()
@@ -991,6 +986,10 @@ init 5:# Screens persistent._default_replays
 
         default walkthrough = ""
         default hint = ""
+        default shown = True
+        default animate = True
+
+        timer 6 action SetLocalVariable("shown", False),SetLocalVariable("animate", False),With(dissolve)
 
         default operators = {
             "<=" : operator.le,   # less than or equal to
@@ -1000,15 +999,22 @@ init 5:# Screens persistent._default_replays
             "==" : operator.eq,   # equal tom
             "!=" : operator.ne,   # not equal
             }
-
-        textbutton "?":
-            action NullAction() 
-            tooltip wt_choice_tooltip
-            style "_default"
-            text_style "_default"
-            text_size 50
-            text_outlines [(2, "#0009", 1, 1)]
-            text_color "#FFFFFFA3"
+        mousearea:
+            align 0.0, 0.0
+            xysize (50,50)
+            hovered SetLocalVariable("shown", True),With(dissolve)
+            unhovered SetLocalVariable("shown", False),With(dissolve)
+        if shown:
+            textbutton "?":
+                if animate:
+                    at choice_Q 
+                action NullAction() 
+                tooltip wt_choice_tooltip
+                style "_default"
+                text_style "_default"
+                text_size 50
+                text_outlines [(2, "#0009", 1, 1)]
+                text_color "#FFFFFFA3"
 
         vbox:
             for count, i in enumerate(items, 1):
@@ -1239,13 +1245,13 @@ init 5:# Screens persistent._default_replays
                 input:
                     style "page_label_text"
                     align (0.0, 0.5)
-                    prefix "Go To Page: "
+                    prefix _("Go To Page: ")
                     allow [str(i) for i in range(0,10)]
                     length 3
                     value the_page
                     if gui.use_custom_caret:
                         caret "custom_caret"
-                textbutton "Go":
+                textbutton _("Go"):
                     text_style "page_label_text"
                     align (1.0,0.5)
                     if _go_to_page.isdigit():
@@ -1392,6 +1398,8 @@ init 5:# Screens persistent._default_replays
         easein t alpha 1.0
 
     screen callstack():
+        if not jgs_develop:
+            timer .1 action Hide("callstack")
         $ current_line = renpy.get_filename_line()
         $ callstack = renpy.get_return_stack()
         $ mode = renpy.get_mode()
@@ -1402,7 +1410,7 @@ init 5:# Screens persistent._default_replays
                 text _("Mode: [mode]") outlines [(2, "#0009", 1, 1)] color "#0F0"
             if callstack:
                 text _("CallStack: [callstack!q]") outlines [(2, "#0009", 1, 1)] color "#0F0"
-                textbutton "Clear Stack" action Function(renpy.set_return_stack, [])
+                textbutton _("Clear Stack") action Function(renpy.set_return_stack, [])
 
     screen tooltip(tooltip, **kwargs):
         $ f_align = kwargs.get("align", (0.5, 0.05))
@@ -1587,31 +1595,31 @@ init 1:# Screens Cheats
             xpos 1650
             ypos 50
             spacing 10
-            textbutton "1. Academy":
+            textbutton _("1. Academy"):
                 style "menu_text_button_custom"
                 text_style "menu_text_button_custom_cheats"
                 xalign 0.5
                 action SetScreenVariable("students_book_page", 1), SetScreenVariable("management_page", 1), SetScreenVariable("students_report_show", False),With(dissolve)
                 selected (students_book_page == 1 and management_page == 1)
-            textbutton "2. Management":
+            textbutton _("2. Management"):
                 style "menu_text_button_custom"
                 text_style "menu_text_button_custom_cheats"
                 xalign 0.5
                 action SetScreenVariable("students_book_page", 1), SetScreenVariable("management_page", 2), SetScreenVariable("students_report_show", False),With(dissolve)
                 selected (students_book_page == 1 and management_page == 2)
-            textbutton "3. Students":
+            textbutton _("3. Students"):
                 style "menu_text_button_custom"
                 text_style "menu_text_button_custom_cheats"
                 xalign 0.5
                 action SetScreenVariable("students_book_page", 3), SetScreenVariable("students_report_show", False),With(dissolve)
                 selected students_book_page == 3
-            textbutton "4. Staff/Teachers":
+            textbutton _("4. Staff/Teachers"):
                 style "menu_text_button_custom"
                 text_style "menu_text_button_custom_cheats"
                 xalign 0.5
                 action SetScreenVariable("students_book_page", 2), SetScreenVariable("staff_report_show", False),With(dissolve)
                 selected students_book_page == 2
-            textbutton "5. Return":
+            textbutton _("5. Return"):
                 style "menu_text_button_custom"
                 text_style "menu_text_button_custom_cheats"
                 xalign 0.5
@@ -1623,24 +1631,24 @@ init 1:# Screens Cheats
                     action Hide("cheats", transition=d),ClearFocus("diff_drop"),With(dissolve)
 
         if students_book_page == 1 and students_report_show == False:
-            text "{size=-8}{color=000000}Management":
+            text _("{size=-8}{color=#000000}Management"):
                 xalign 0.3
                 yalign 0.93
         elif students_book_page == 3 and students_report_show == False:
-            text "{size=-8}{color=000000}Students":
+            text _("{size=-8}{color=#000000}Students"):
                 xalign 0.3
                 yalign 0.93
         elif students_book_page == 2 and students_report_show == False:
-            text "{size=-8}{color=000000}Staff & Teachers":
+            text _("{size=-8}{color=#000000}Staff & Teachers"):
                 xalign 0.3
                 yalign 0.93
         elif students_report_show == True and rstd != "":
-            text "{color=000000}" + "{size=-12}" + rstd.surname + ",{/size}{size=-8} " + rstd.name + " Summary":
+            text _("{color=#000000}" + "{size=-12}" + rstd.surname + ",{/size}{size=-8} " + rstd.name + " Summary"):
                 xalign 0.3
                 yalign 0.93
 
         if students_book_page == 1:
-            text "{=cheats_inline_50}Manage Academy":
+            text _("{=cheats_inline_50}Manage Academy"):
                 xpos 435
                 ypos 75
             text "{=cheats_inline_50}{u}".ljust(77):
@@ -1649,7 +1657,7 @@ init 1:# Screens Cheats
             vbox:
                 xpos 345
                 ypos 175
-                text "{size=38}{color=#000000}Test Difficulty:":
+                text _("{size=38}{color=#000000}Test Difficulty:"):
                     xpos 150
                 hbox:
                     ypos 50
@@ -1676,13 +1684,13 @@ init 1:# Screens Cheats
                         selected_hover "hard_button selected_hover"
                         style "menu_text_button_custom"
                         action SetVariable("academy.difficulty", 2)   
-                text "{size=20}{color=#000000}  At the end of each week, the students will perform an exam that will evaluate their Academic Ability.":
+                text _("{size=20}{color=#000000}  At the end of each week, the students will perform an exam that will evaluate their Academic Ability."):
                     ypos 70
                     xmaximum 570
                 vbox:
                     ypos 85
                     spacing 25
-                    text "{size=38}{color=#000000}Academy Policies:":
+                    text _("{size=38}{color=#000000}Academy Policies:"):
                         xpos 150
                         xalign 0.5
                     vbox:
@@ -1691,88 +1699,86 @@ init 1:# Screens Cheats
                             spacing 10
                             hbox:
                                 spacing 10
-                                text "{=cheats_inline_25}Teaching Method:"
-                                text "{=cheats_inline_15}%s"%("Punishment Focus" if academy.focus == 0\
-                                    else "Relaxed" if academy.focus == 1\
-                                    else "Teaching Focus" if academy.focus == 2\
-                                    else "Corruption Focus"):
+                                text _("{=cheats_inline_25}Teaching Method:")
+                                text _("{=cheats_inline_15}%s"%("Punishment Focus") if academy.focus == 0\
+                                    else _("Relaxed") if academy.focus == 1\
+                                    else _("Teaching Focus" )if academy.focus == 2\
+                                    else _("Corruption Focus")):
                                         yalign 0.6
                             hbox:
                                 spacing 10
                                 frame:
-                                    textbutton "{size=13}Punishment Focus":
+                                    textbutton _("{size=13}Punishment Focus"):
                                         yalign 0.5
                                         if currentdate.daytime == 0:
                                             action SetVariable("academy.focus", 0)
                                         else:
-                                            tooltip "Some Management options are only available during Early Morning periods!"
+                                            tooltip _("Some Management options are only available during Early Morning periods!")
                                             action NullAction()
                                 frame:
-                                    textbutton "{size=15}Relaxed Focus":
+                                    textbutton _("{size=15}Relaxed Focus"):
                                         xalign 0.5
                                         if currentdate.daytime == 0:
                                             action SetVariable("academy.focus", 1)
                                         else:
-                                            tooltip "Some Management options are only available during Early Morning periods!"
+                                            tooltip _("Some Management options are only available during Early Morning periods!")
                                             action NullAction()
                                 frame:
-                                    textbutton "{size=15}Teaching Focus":
+                                    textbutton _("{size=15}Teaching Focus"):
                                         xalign 0.5
                                         if currentdate.daytime == 0:
                                             action SetVariable("academy.focus", 2)
                                         else:
-                                            tooltip "Some Management options are only available during Early Morning periods!"
+                                            tooltip _("Some Management options are only available during Early Morning periods!")
                                             action NullAction()
                                 if academy.apl >= 40:
                                     frame:
-                                        textbutton "{size=15}Corruption Focus":
+                                        textbutton _("{size=15}Corruption Focus"):
                                             xalign 0.5
                                             if currentdate.daytime == 0:
                                                 action SetVariable("academy.focus", 3)
                                             else:
-                                                tooltip "Some Management options are only available during Early Morning periods!"
+                                                tooltip _("Some Management options are only available during Early Morning periods!")
                                                 action NullAction()
                         vbox:
                             spacing 10
                             hbox:
                                 spacing 10
-                                text "{=cheats_inline_25}Disciplinary Method:"
-                                text "{=cheats_inline_15}%s"%("Verbal Warning" if academy.disciplinary == 0 else "Spanking"):
+                                text _("{=cheats_inline_25}Disciplinary Method:")
+                                text "{=cheats_inline_15}%s"%(_("Verbal Warning") if academy.disciplinary == 0 else _("Spanking")):
                                     yalign 0.6                                                                                         
                             if academy.apl >= 10:
                                 hbox:
                                     spacing 5
                                     frame:
-                                        textbutton "{size=13}Verbal Warning":
+                                        textbutton _("{size=13}Verbal Warning"):
                                             yalign 0.6
                                             action SetVariable("academy.disciplinary", 0)
                                     frame:
-                                        textbutton "{size=13}Spanking":
+                                        textbutton _("{size=13}Spanking"):
                                             yalign 0.6
                                             action SetVariable("academy.disciplinary", 1)
                             else:
                                 hbox:
                                     spacing 5
                                     frame:
-                                        textbutton "{size=13}Verbal Warning":
+                                        textbutton _("{size=13}Verbal Warning"):
                                             yalign 0.6
                                             action SetVariable("academy.disciplinary", 0)
-
                         vbox:
                             spacing 2
                             hbox:
                                 spacing 10
-                                text "{=cheats_inline_25}Academy Perks:"
+                                text _("{=cheats_inline_25}Academy Perks:")
                             hbox:
                                 spacing 5
-                                text "{size=20}{color=#000000}Active:"
+                                text _("{size=20}{color=#000000}Active:")
                                 text "{=cheats_inline_15}[perknametext]":
                                     yalign 0.6
 
                             hbox:
                                 spacing 5
-                                text "{size=20}{color=#000000}Inactive:"
-
+                                text _("{size=20}{color=#000000}Inactive:")
             vbox:
                 xsize 580
                 ysize config.screen_height-200
@@ -1795,7 +1801,7 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default" action SetVariable("academy.sttrust", default_sttrust)
+                            textbutton _("Default") action SetVariable("academy.sttrust", default_sttrust)
                         vbox:
                             label _("Grades:\n{color=#000}%s{/color}"%academy.grades)
                             bar:
@@ -1805,7 +1811,7 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default" action SetVariable("academy.grades", default_grades)
+                            textbutton _("Default") action SetVariable("academy.grades", default_grades)
                         vbox:
                             label _("Academic Perversion Level:\n{color=#000}%s{/color}"%academy.apl)
                             bar:
@@ -1815,7 +1821,7 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default" action SetVariable("academy.apl", default_apl)
+                            textbutton _("Default") action SetVariable("academy.apl", default_apl)
                         vbox:
                             label _("Viewership:\n{color=#000}%s{/color}"%academy.viewership)
                             bar:
@@ -1825,7 +1831,7 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default" action SetVariable("academy.viewership", default_viewership)
+                            textbutton _("Default") action SetVariable("academy.viewership", default_viewership)
                         vbox:
                             label _("Board Happiness:\n{color=#000}%s{/color}"%academy.board)
                             bar:
@@ -1835,7 +1841,7 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default" action SetVariable("academy.board", default_board)
+                            textbutton _("Default") action SetVariable("academy.board", default_board)
 
                     elif management_page == 2:
                         vbox:
@@ -1847,9 +1853,8 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default":
+                            textbutton _("Default"):
                                 action SetVariable("academy.gradesthreshold", default_gradesthreshold)
-
                         vbox:
                             label _("Outside Pressure:\n{color=#000}%s{/color}"%academy.outsidepressure)
                             bar:
@@ -1859,9 +1864,8 @@ init 1:# Screens Cheats
                                     max_is_zero=False,
                                     step=1,
                                     force_step=True)
-                            textbutton "Default":
+                            textbutton _("Default"):
                                 action SetVariable("academy.outsidepressure", 0)
-
                         vbox:
                             textbutton _("Lawsuit Progress:\n{color=#000}%s{/color}"%academy.lawsuitprogress if academy.lawsuit else "MC Lawsuit"):
                                 action ToggleVariable("academy.lawsuit") 
@@ -1874,7 +1878,7 @@ init 1:# Screens Cheats
                                         max_is_zero=False,
                                         step=1,
                                         force_step=True)
-                                textbutton "Default":
+                                textbutton _("Default"):
                                     action SetVariable("academy.lawsuitprogress", 0)
 
         elif students_book_page == 2:
@@ -1897,7 +1901,7 @@ init 1:# Screens Cheats
                     ypos 135
                     xmaximum 250
 
-                text "{=cheats_inline_40}{u} PERSONAL INFORMATION {/u}":
+                text _("{=cheats_inline_40}{u} PERSONAL INFORMATION {/u}"):
                     xpos 1000
                     ypos 80
                 vbox:
@@ -1907,7 +1911,7 @@ init 1:# Screens Cheats
                     xsize 580
                     hbox:
                         spacing 15
-                        text "{=cheats_inline}{u}FULL NAME:{/u}"
+                        text _("{=cheats_inline}{u}FULL NAME:{/u}")
                         if rstd.nametag == "protag":
                             text "{=cheats_inline}[rstd.surname]"
                             button:
@@ -1924,13 +1928,13 @@ init 1:# Screens Cheats
                             text "{=cheats_inline}[rstd.surname] [rstd.name]"
                     hbox:
                         spacing 15
-                        text "{=cheats_inline}{u}GENDER:{/u}"
+                        text _("{=cheats_inline}{u}GENDER:{/u}")
                         if rstd.gender == 0:
-                            text "{=cheats_inline}Female"
+                            text _("{=cheats_inline}Female")
                         elif rstd.gender == 1:
-                            text "{=cheats_inline}Male"
+                            text _("{=cheats_inline}Male")
                         else:
-                            text "{=cheats_inline}Other"
+                            text _("{=cheats_inline}Other")
                     #hbox:
                     #    spacing 15
                     #    text "{=cheats_inline}{u}AGE:{/u}"
@@ -1944,7 +1948,7 @@ init 1:# Screens Cheats
                     #    text "{=cheats_inline}{u}WEIGHT:{/u}"
                     #    text "{=cheats_inline}[rstd.weight] kg"
                     if make_sextstat_available_staff and rstd.gender == 0:
-                        text "{=cheats_inline_40}{u} SEX STATS {/u}" xalign 0.5
+                        text _("{=cheats_inline_40}{u} SEX STATS {/u}") xalign 0.5
                         for stat, stat_val in rstd.sexstats.items():
                             hbox:
                                 spacing 15
@@ -1956,7 +1960,7 @@ init 1:# Screens Cheats
                     xpos 345
                     ypos 70
                     spacing 20
-                    text "{size=38}{color=#000000}Staff Members:":
+                    text _("{size=38}{color=#000000}Staff Members:"):
                         xpos 150
                     vpgrid:
                         spacing 10
@@ -1992,7 +1996,7 @@ init 1:# Screens Cheats
                                     text "{size=30}{color=#000000}{font=gui/fonts/CrimsonText-SemiBold.ttf}{size=22}[Actor.surname],{/size} [Actor.c]{/font}{/color}{/size}":
                                         xmaximum 480
                                     if Actor.name in [i.girl for i in _cheats_replay]:
-                                            textbutton "Replays ({})".format(sum(1 for i in _cheats_replay if i.girl == Actor.name)):
+                                            textbutton _("Replays ({})".format(sum(1 for i in _cheats_replay if i.girl == Actor.name))):
                                                 text_style "replay_cheat"
                                                 style "replay_cheat"
                                                 action SetScreenVariable("student_replay", Actor.name), CaptureFocus("diff_drop")
@@ -2000,7 +2004,7 @@ init 1:# Screens Cheats
                     xpos 970
                     ypos 70
                     spacing 20
-                    text "{size=38}{color=#000000}Teachers:":
+                    text _("{size=38}{color=#000000}Teachers:"):
                         xpos 200
                     vpgrid:
                         spacing 10
@@ -2046,7 +2050,7 @@ init 1:# Screens Cheats
                     $ reportbookstudents.append(Student)
             $ reportbookstudents.sort(key=lambda x: x.name)
             $ academy.targets.sort(key=lambda x: x.name)
-            if students_report_show == True:                
+            if students_report_show == True:
                 text "{=cheats_inline}{u}".ljust(110):
                     xpos 347
                     ypos 338
@@ -2059,7 +2063,7 @@ init 1:# Screens Cheats
                     ypos 135
                     xmaximum 250
                 if rstd.strikes >= 1:
-                    textbutton "{size=20}Correct Behavior":
+                    textbutton _("{size=20}Correct Behavior"):
                         xpos 700
                         ypos 450
                         action NullAction()
@@ -2077,18 +2081,18 @@ init 1:# Screens Cheats
                     spacing 15
                     hbox:
                         spacing 10
-                        text "{=cheats_inline_40}Grades:"
-                        text "%s"%_student_grade_status(rstd)
+                        text _("{=cheats_inline_40}Grades:")
+                        text _("%s"%_student_grade_status(rstd))
 
                     hbox:
                         spacing 10
-                        text "{=cheats_inline_40}Strikes:"
-                        text "%s"%_student_strike_status(rstd)[0] xalign _student_strike_status(rstd)[1] yalign _student_strike_status(rstd)[2]
-                    text "{=cheats_inline_40}Student Report:"
+                        text _("{=cheats_inline_40}Strikes:")
+                        text _("%s"%_student_strike_status(rstd)[0]) xalign _student_strike_status(rstd)[1] yalign _student_strike_status(rstd)[2]
+                    text _("{=cheats_inline_40}Student Report:")
                     vbox:
                         ypos -20
                         if rstd == ayumi:
-                            text "{size=18}{color=#000000}{i}  [rstd.surname] [rstd.name] is one of our most distinguished students. She comes from a priviledged background and studied in a very prestigious school. However, due to disagreements with her parents, they stopped paying for her education near its conclusion.":
+                            text _("{size=18}{color=#000000}{i}  [rstd.surname] [rstd.name] is one of our most distinguished students. She comes from a priviledged background and studied in a very prestigious school. However, due to disagreements with her parents, they stopped paying for her education near its conclusion."):
                                 xmaximum 550
                         #elif rstd == emiko:
                             # TODO emiko report
@@ -2107,16 +2111,16 @@ init 1:# Screens Cheats
 
                         if "Cheat_Prostitute" in rstd.topics or "BigCheat_Prostitute" in rstd.topics:
                             if rstd == rina:
-                                text "{=cheats_inline_itallic}  Ms. [rstd.surname] has been linked with not only exchanging favors of sexual nature with others, but also, being in charge of organizing such unusual encounters between other students and the teachers.":
+                                text _("{=cheats_inline_itallic}  Ms. [rstd.surname] has been linked with not only exchanging favors of sexual nature with others, but also, being in charge of organizing such unusual encounters between other students and the teachers."):
                                     xmaximum 550
                             else:
-                                text "{=cheats_inline_itallic}  Our reports have concluded that this student has been selling favors, of sexual nature, in exchange of attaining higher grading.":
+                                text _("{=cheats_inline_itallic}  Our reports have concluded that this student has been selling favors, of sexual nature, in exchange of attaining higher grading."):
                                     xmaximum 550
                         if "Rosette_Award" in rstd.topics and rstd.testResult < academy.gradesthreshold:
-                            text "{=cheats_inline_itallic}  An award has been given to [rstd.name], meaning that they will count as having achieved the minimum score for a success on their weekly exam result.":
+                            text _("{=cheats_inline_itallic}  An award has been given to [rstd.name], meaning that they will count as having achieved the minimum score for a success on their weekly exam result."):
                                 xmaximum 550
                         elif "Cheated_Exam" in rstd.topics and rstd.testResult == 0:
-                            text "{=cheats_inline_itallic}  This student has received a grading of 0 as a consequence of being caught cheating on their weekly exam.":
+                            text _("{=cheats_inline_itallic}  This student has received a grading of 0 as a consequence of being caught cheating on their weekly exam."):
                                 xmaximum 550
                         elif rstd.intelligence < 0.7 and rstd.testResult >= academy.gradesthreshold:
                             text "{=cheats_inline_itallic}  It has been observed that despite having not exceeded in many of our initial examinations, the student is achieving adequate performance in regards to our grading system. Some could argue that [rstd.name] is probably receiving some form of external assistance, in order to gain an advantage.":
@@ -2126,21 +2130,21 @@ init 1:# Screens Cheats
                         elif rstd.intelligence >= 1.6:
                             text "%s"%_student_intelligence_status(rstd,3) xmaximum 550
                         elif rstd.intelligence >= 1.2:
-                            text "{=cheats_inline_itallic}  With their notable aptitude, this student consistently achieves scores that are reliably at or above the average level, maintaining acceptable academic performance.":
+                            text _("{=cheats_inline_itallic}  With their notable aptitude, this student consistently achieves scores that are reliably at or above the average level, maintaining acceptable academic performance."):
                                 xmaximum 550
                         elif rstd.intelligence >= 0.9:
-                            text "{=cheats_inline_itallic}  This student consistently achieves scores that align with the average level, demonstrating a steady performance with occasional fluctuations both above and below the average range.":
+                            text _("{=cheats_inline_itallic}  This student consistently achieves scores that align with the average level, demonstrating a steady performance with occasional fluctuations both above and below the average range."):
                                 xmaximum 550
                         elif rstd.intelligence >= 0.7:
-                            text "{=cheats_inline_itallic}  This student typically falls below the average range, occasionally reaching the average mark and rarely exceeding it in specific circumstances.":
+                            text _("{=cheats_inline_itallic}  This student typically falls below the average range, occasionally reaching the average mark and rarely exceeding it in specific circumstances."):
                                 xmaximum 550
                         elif rstd.intelligence >= 0.5:
-                            text "{=cheats_inline_itallic}  This student demonstrates an ongoing difficulty in keeping up with the academic pace of their peers, consistently falling short of expected standards and exhibiting a tendency towards underachievement.":
+                            text _("{=cheats_inline_itallic}  This student demonstrates an ongoing difficulty in keeping up with the academic pace of their peers, consistently falling short of expected standards and exhibiting a tendency towards underachievement."):
                                 xmaximum 550
                         elif rstd.intelligence < 0.5:
-                            text "{=cheats_inline_itallic}  This student demonstrates an evident challenge when it comes to comprehending intricate topics, showcasing either a restrictive capability to learn or a severe lack of interest that would most definitely significantly hurt their academics.":
+                            text _("{=cheats_inline_itallic}  This student demonstrates an evident challenge when it comes to comprehending intricate topics, showcasing either a restrictive capability to learn or a severe lack of interest that would most definitely significantly hurt their academics."):
                                 xmaximum 550
-                text "{=cheats_inline_40}{u} PERSONAL INFORMATION {/u}":
+                text _("{=cheats_inline_40}{u} PERSONAL INFORMATION {/u}"):
                     xpos 1000
                     ypos 80
                 vbox:
@@ -2149,35 +2153,35 @@ init 1:# Screens Cheats
                     spacing 15
                     hbox:
                         spacing 15
-                        text "{=cheats_inline}{u}FULL NAME:{/u}"
-                        text "{=cheats_inline}[rstd.surname] [rstd.name]"
+                        text _("{=cheats_inline}{u}FULL NAME:{/u}")
+                        text _("{=cheats_inline}[rstd.surname] [rstd.name]")
                     hbox:
                         spacing 15
-                        text "{=cheats_inline}{u}GENDER:{/u}"
+                        text _("{=cheats_inline}{u}GENDER:{/u}")
                         if rstd.gender == 0:
-                            text "{=cheats_inline}Female"
+                            text _("{=cheats_inline}Female")
                         elif rstd.gender == 1:
-                            text "{=cheats_inline}Male"
+                            text _("{=cheats_inline}Male")
                         else:
-                            text "{=cheats_inline}Other"
+                            text _("{=cheats_inline}Other")
                     hbox:
                         spacing 15
                         text "{=cheats_inline}{u}AGE:{/u}"
                         text "{=cheats_inline}[rstd.age]"
                     hbox:
                         spacing 15
-                        text "{=cheats_inline}{u}HEIGHT:{/u}"
-                        text "{=cheats_inline}[rstd.height] m"
+                        text _("{=cheats_inline}{u}HEIGHT:{/u}")
+                        text _("{=cheats_inline}[rstd.height] m")
                     hbox:
                         spacing 15
-                        text "{=cheats_inline}{u}WEIGHT:{/u}"
-                        text "{=cheats_inline}[rstd.weight] kg"
+                        text _("{=cheats_inline}{u}WEIGHT:{/u}")
+                        text _("{=cheats_inline}[rstd.weight] kg")
                     vbox:
                         spacing 10
                         text "{=cheats_inline}{u}".ljust(110):
                             xalign 0.5
                             yalign 0.5
-                        text "{=cheats_inline_40}{u} OTHER STATS {/u}":
+                        text _("{=cheats_inline_40}{u} OTHER STATS {/u}"):
                             xalign 0.5
                             yalign 0.5
                     hbox:
@@ -2185,7 +2189,7 @@ init 1:# Screens Cheats
                         spacing 30
                         vbox:
                             spacing 15
-                            text "{=cheats_inline_25}Intelligence":
+                            text _("{=cheats_inline_25}Intelligence"):
                                 xalign 0.5
                                 yalign 0.5
                             text "%s"%_student_intelligence_lvl(rstd):
@@ -2202,7 +2206,7 @@ init 1:# Screens Cheats
                                 yalign 0.5
                         vbox:
                             spacing 15
-                            text "{=cheats_inline_25}  Affection  ":
+                            text _("{=cheats_inline_25}  Affection  "):
                                 xalign 0.5
                                 yalign 0.5
                             if rstd.gender == 1:
@@ -2235,7 +2239,7 @@ init 1:# Screens Cheats
                                 yalign 0.5
                         vbox:
                             spacing 15
-                            text "{=cheats_inline_25}Corruption Level":
+                            text _("{=cheats_inline_25}Corruption Level"):
                                 xalign 0.5
                                 yalign 0.5
                                 text_align 0.5
@@ -2268,12 +2272,12 @@ init 1:# Screens Cheats
                     xpos 345
                     ypos 70
                     spacing 20
-                    text "{size=38}{color=#000000}Students:":
+                    text _("{size=38}{color=#000000}Students:"):
                         xpos 195
                     vbox:
                         ypos -30
                         spacing 10
-                        text "{size=30}{color=#000000}Main Targets:"
+                        text _("{size=30}{color=#000000}Main Targets:")
                     vpgrid:
                         ypos -30
                         spacing 10
@@ -2309,7 +2313,7 @@ init 1:# Screens Cheats
                                     text "{=cheats_inline}{size=22}[Actor.surname],{/size} [Actor.name]":
                                         xmaximum 480
                                     if Actor.name in [i.girl for i in _cheats_replay]:
-                                        textbutton "Replays ({})".format(sum(1 for i in _cheats_replay if i.girl == Actor.name)):
+                                        textbutton _("Replays ({})".format(sum(1 for i in _cheats_replay if i.girl == Actor.name))):
                                             text_style "replay_cheat"
                                             style "replay_cheat"
                                             action SetScreenVariable("student_replay", Actor.name), CaptureFocus("diff_drop")
@@ -2317,7 +2321,7 @@ init 1:# Screens Cheats
                     xpos 970
                     ypos 70
                     spacing 20
-                    text "{size=38}{color=#000000}Students:":
+                    text _("{size=38}{color=#000000}Students:"):
                         xpos 202
                     vpgrid:
                         spacing 10
@@ -2353,7 +2357,7 @@ init 1:# Screens Cheats
                                     text "{=cheats_inline}{size=22}[Student.surname],{/size} [Student.name]":
                                         xmaximum 480
                                     if Student.name in [i.girl for i in _cheats_replay]:
-                                        textbutton "Replays ({})".format(sum(1 for i in _cheats_replay if i.girl == Student.name)):
+                                        textbutton _("Replays ({})".format(sum(1 for i in _cheats_replay if i.girl == Student.name))):
                                             text_style "replay_cheat"
                                             style "replay_cheat"
                                             action SetScreenVariable("student_replay", Student.name), CaptureFocus("diff_drop")
@@ -2404,12 +2408,12 @@ init 1:# Screens Cheats
                                         tooltip rep.desc
                                         xalign 0.5
                                         sensitive getattr(persistent, rep.flag)
-                                    textbutton ("Unlock" if not getattr(persistent, rep.flag) else "Lock"):
+                                    textbutton (_("Unlock") if not getattr(persistent, rep.flag) else _("Lock")):
                                         action ToggleField(persistent, rep.flag)
                                         selected getattr(persistent, rep.flag) == None
                                         text_size gui.text_size-7
                                         xalign 0.5
-                    textbutton "Close" action ClearFocus("diff_drop"),SetScreenVariable("student_replay", '') xalign 0.5
+                    textbutton _("Close") action ClearFocus("diff_drop"),SetScreenVariable("student_replay", '') xalign 0.5
                     key "game_menu" action ClearFocus("diff_drop"),SetScreenVariable("student_replay", '')
 
         if tooltip:
@@ -2458,7 +2462,7 @@ init 1:# Screens Cheats
                     ypos 2
                 text "%s"%_viewership_status(academy.viewership) ypos -3
 
-        textbutton "Board Satisfaction:":
+        textbutton _("Board Satisfaction:"):
             text_outlines [ (2, "#00000080", 0, 1) ]
             action NullAction()
             tooltip "%s"%_board_status(academy.board)
@@ -2579,7 +2583,7 @@ init 1:# Screens Cheats
                             action ToggleField(rstd, "virgin")
                             alternate SetField(rstd, "virgin", character_selected.get("virgin"))
                             selected rstd.virgin == character_selected.get("virgin")
-                            tooltip "Left Click: Toggle Virgin\nRight Click Set Default"
+                            tooltip _("Left Click: Toggle Virgin\nRight Click Set Default")
                         null height gui.text_size
                     #vbox:
                     #    label _("Lewd: {color=#000}%s{/color}"%round(float(rstd.lewd),2))
@@ -2613,7 +2617,7 @@ init 1:# Screens Cheats
                             max_is_zero=False,
                             step=1,
                             force_step=True)
-                    textbutton "Default":
+                    textbutton _("Default"):
                         action SetField(rstd, "testResult", character_selected.get("testResult"))
                 if rstd.gender == 0:
                     vbox:#Affection
@@ -2625,7 +2629,7 @@ init 1:# Screens Cheats
                                 max_is_zero=False,
                                 step=1,
                                 force_step=True)
-                        textbutton "Default":
+                        textbutton _("Default"):
                             action SetField(rstd, "affection", character_selected.get("affection"))
                     vbox:#Corruption
                         label _("Corruption: {color=#000}%s{/color}"%rstd.perversion)
@@ -2636,7 +2640,7 @@ init 1:# Screens Cheats
                                 max_is_zero=False,
                                 step=1,
                                 force_step=True)
-                        textbutton "Default":
+                        textbutton _("Default"):
                             action SetField(rstd, "perversion", character_selected.get("perversion"))
                 vbox:#Strikes
                     label _("Strikes: {color=#000}%s{/color}"%rstd.strikes)
@@ -2647,10 +2651,10 @@ init 1:# Screens Cheats
                             max_is_zero=False,
                             step=1,
                             force_step=True)
-                    textbutton "Default":
+                    textbutton _("Default"):
                         action SetField(rstd, "strikes", character_selected.get("strikes"))
                 if make_sextstat_available_students and rstd.gender == 0:
-                    text "{=cheats_inline_40}{u} SEX STATS {/u}" xalign 0.5
+                    text _("{=cheats_inline_40}{u} SEX STATS {/u}") xalign 0.5
                     for stat, stat_val in rstd.sexstats.items():
                         hbox:
                             spacing 15
@@ -2658,6 +2662,6 @@ init 1:# Screens Cheats
                             text "{=cheats_inline}[stat_val]"
 
                 if rstd.topics:
-                    text "{=cheats_inline_40}{u} TOPICS {/u}" xalign 0.5
+                    text _("{=cheats_inline_40}{u} TOPICS {/u}") xalign 0.5
                     $ tops = ", ".join(rstd.topics)
                     text "{=cheats_inline}[tops]"
